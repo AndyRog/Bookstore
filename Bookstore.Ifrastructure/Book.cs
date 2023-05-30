@@ -1,6 +1,6 @@
 ﻿namespace Bookstore.Ifrastructure
 {
-    public class Book
+    public class cl
     {
 
     }
