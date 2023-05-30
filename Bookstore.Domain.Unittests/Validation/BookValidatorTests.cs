@@ -16,7 +16,7 @@ namespace Bookstore.Domain.Unittests.Validation
 
 
         [Fact]
-        public void Test1()
+        public void Valid_Book_Passes_Validation()
         {
 
         }
