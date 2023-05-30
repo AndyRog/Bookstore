@@ -52,7 +52,8 @@ namespace Bookstore.Domain.Unittests.Validation
             var result = BookValidator.Validate(book);
 
             //Assert
-            Assert.True(result.IsValid);
+            Assert.False(result.IsValid);
+            Assert.Single(result.Errors);
         }
     }
 }
