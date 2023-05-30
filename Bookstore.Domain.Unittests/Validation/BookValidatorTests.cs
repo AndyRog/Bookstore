@@ -33,6 +33,26 @@ namespace Bookstore.Domain.Unittests.Validation
 
             //Assert
             Assert.True(result.IsValid);
+        } 
+        
+        [Fact]
+        public void Validation_Error_For_Missing_Author()
+        {
+            //Arrange
+
+            var book = new Book()
+            {
+                Id = 1,
+                //Author = Author,
+                Isbn = "1234567891234",
+                Titel = "Test"
+            };
+
+            //Act
+            var result = BookValidator.Validate(book);
+
+            //Assert
+            Assert.True(result.IsValid);
         }
     }
 }
