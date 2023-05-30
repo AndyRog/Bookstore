@@ -1,4 +1,5 @@
 using Bookstore.Domain.Entities;
+using Bookstore.Domain.Validation;
 
 namespace Bookstore.Domain.Unittests.Validation
 {
@@ -10,6 +11,9 @@ namespace Bookstore.Domain.Unittests.Validation
             FirstName = "Test",
             LastName = "Test"
         };
+
+        private BookValidator BookValidator{ get; }= new BookValidator();
+
 
         [Fact]
         public void Test1()
