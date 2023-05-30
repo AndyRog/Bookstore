@@ -30,6 +30,9 @@ namespace Bookstore.Domain.Unittests.Validation
 
             //Act
             var result = BookValidator.Validate(book);
+
+            //Assert
+            Assert.True(result.IsValid);
         }
     }
 }
