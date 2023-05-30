@@ -18,7 +18,15 @@ namespace Bookstore.Domain.Unittests.Validation
         [Fact]
         public void Valid_Book_Passes_Validation()
         {
+            //Arrange
 
+            var book = new Book()
+            {
+                Id = 1,
+                Author = Author,
+                Isbn = "1234567891234",
+                Titel = "Test"
+            };
         }
     }
 }
