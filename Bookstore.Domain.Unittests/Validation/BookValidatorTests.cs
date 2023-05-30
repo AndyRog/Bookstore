@@ -27,6 +27,9 @@ namespace Bookstore.Domain.Unittests.Validation
                 Isbn = "1234567891234",
                 Titel = "Test"
             };
+
+            //Act
+            var result = BookValidator.Validate(book);
         }
     }
 }
