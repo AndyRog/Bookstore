@@ -15,6 +15,6 @@ public class BookCreateValidator : AbstractValidator<BookCreate>
     {
         //Die Regeln: Title string Länge(max. 100) und das Buch hat keine Title (darf nicht leer sein) implementiert
 
-        RuleFor(bookCreate => bookCreate.Titel).NotEmpty().MaximumLength(100);
+        RuleFor(bookCreate => bookCreate.Title).NotEmpty().MaximumLength(100);
     }
 }

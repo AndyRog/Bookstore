@@ -38,7 +38,7 @@ namespace Bookstore.Application.Unittests.Validation
             //Assert
             Assert.False(result.IsValid);
             Assert.Single(result.Errors);
-            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("NotEmpyValidator") && error.PropertyName.Equals("Titel"));
+            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("NotEmptyValidator") && error.PropertyName.Equals("Title"));
         
         }
     }
