@@ -78,7 +78,7 @@ namespace Bookstore.Domain.Unittests.Validation
             //Assert
             Assert.False(result.IsValid);
             Assert.Single(result.Errors);
-            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("GreaterThanOrValidator") && error.PropertyName.Equals("Quantity"));
+            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("GreaterThanOrEqualValidator") && error.PropertyName.Equals("Quantity"));
         }
         
         [Theory]
