@@ -56,5 +56,29 @@ namespace Bookstore.Domain.Unittests.Validation
             Assert.Single(result.Errors);
             Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("NotNullValidator") && error.PropertyName.Equals("Author"));
         }
+        
+        
+        [Fact]
+        public void Validation_Error_For_Negative_Quantity()
+        {
+            //Arrange
+
+            var book = new Book()
+            {
+                Id = 1,
+                Author = Author,
+                Isbn = "1234567891234",
+                Titel = "Test",
+                Quantity = -1
+            };
+
+            //Act
+            var result = BookValidator.Validate(book);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.Single(result.Errors);
+            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("GreaterThanOrValidator") && error.PropertyName.Equals("Quantity"));
+        }
     }
 }
