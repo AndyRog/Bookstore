@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Application.Dtos
 {
-    internal class BookCreate
+    public class BookCreate
     {
     }
 }
