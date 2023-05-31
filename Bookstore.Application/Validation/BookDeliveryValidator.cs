@@ -6,13 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookstore.Application.Validation
+namespace Bookstore.Application.Validation;
+
+public class BookDeliveryValidator : AbstractValidator<BookDelivery>
 {
-    public class BookDeliveryValidator : AbstractValidator<BookDelivery>
+    public BookDeliveryValidator()
     {
-        public BookDeliveryValidator()
-        {
-            RuleFor(delivery => delivery.Quantity).GreaterThanOrEqualTo(0);
-        }
+        RuleFor(delivery => delivery.Quantity).GreaterThanOrEqualTo(0);
     }
 }
