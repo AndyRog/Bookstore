@@ -41,5 +41,22 @@ namespace Bookstore.Application.Unittests.Validation
             Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("NotEmptyValidator") && error.PropertyName.Equals("Title"));
         
         }
+        
+        
+        [Fact]
+        public void Validation_Error_For_Too_Long__Titel()
+        {
+            //Arrange
+            var bookCreate = new BookCreate("1234567891234", @"AAAAAAAAAA\r\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 1, 0);
+
+            //Act
+            var result = BookCreateValidator.Validate(bookCreate);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.Single(result.Errors);
+            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("MaximumLengthValidator") && error.PropertyName.Equals("Title"));
+        
+        }
     }
 }
