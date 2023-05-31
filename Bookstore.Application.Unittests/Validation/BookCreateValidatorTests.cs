@@ -44,7 +44,7 @@ namespace Bookstore.Application.Unittests.Validation
         
         
         [Fact]
-        public void Validation_Error_For_Too_Long__Titel()
+        public void Validation_Error_For_Too_Long_Titel()
         {
             //Arrange
             var bookCreate = new BookCreate("1234567891234", @"AAAAAAAAAA\r\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 1, 0);
