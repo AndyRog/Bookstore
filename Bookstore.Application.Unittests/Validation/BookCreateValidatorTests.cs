@@ -1,15 +1,12 @@
 ﻿using System;
-using Xunit;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookstore.Application.Unittests.Validation;
-
-public class BookCreateValidatorTests
+namespace Bookstore.Application.Unittests.Validation
 {
-    private BookCreateValidator BookCreateValidator { get; } = new BookCreateValidator();
-   
-
+    internal class BookCreateValidatorTests
+    {
+    }
 }
