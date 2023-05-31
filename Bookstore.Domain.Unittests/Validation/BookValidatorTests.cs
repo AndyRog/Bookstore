@@ -80,5 +80,34 @@ namespace Bookstore.Domain.Unittests.Validation
             Assert.Single(result.Errors);
             Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("GreaterThanOrValidator") && error.PropertyName.Equals("Quantity"));
         }
+        
+        [Theory]
+        [InlineData("")] //Length - Empty-Null
+        [InlineData("1")] //Length - 1
+        [InlineData("123456789123")] //Length - 12
+        [InlineData("12345678912345")] //Length - 14
+        public void Validation_Error_For_Isbn_Of_Wrong_Length(string isbn)
+        {
+            //Arrange
+
+            var book = new Book()
+            {
+                Id = 1,
+                Author = Author,
+               //Isbn = "1234567891234",
+               Isbn = isbn,
+                Titel = "Test",
+                //Quantity = -1
+                Quantity = 0
+            };
+
+            //Act
+            var result = BookValidator.Validate(book);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.Single(result.Errors);
+            Assert.Contains(result.Errors, error=>error.ErrorCode.Equals("GreaterThanOrValidator") && error.PropertyName.Equals("Quantity"));
+        }
     }
 }
