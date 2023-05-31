@@ -25,7 +25,7 @@ namespace Bookstore.Domain.Unittests.Validation
                 Id = 1,
                 Author = Author,
                 Isbn = "1234567891234",
-                Titel = "Test"
+                Title = "Test"
             };
 
             //Act
@@ -45,7 +45,7 @@ namespace Bookstore.Domain.Unittests.Validation
                 Id = 1,
                 //Author = Author,
                 Isbn = "1234567891234",
-                Titel = "Test"
+                Title = "Test"
             };
 
             //Act
@@ -68,7 +68,7 @@ namespace Bookstore.Domain.Unittests.Validation
                 Id = 1,
                 Author = Author,
                 Isbn = "1234567891234",
-                Titel = "Test",
+                Title = "Test",
                 Quantity = -1
             };
 
@@ -96,7 +96,7 @@ namespace Bookstore.Domain.Unittests.Validation
                 Author = Author,
                //Isbn = "1234567891234",
                Isbn = isbn,
-                Titel = "Test",
+                Title = "Test",
                 //Quantity = -1
                 Quantity = 0
             };

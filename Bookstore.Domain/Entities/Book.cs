@@ -3,7 +3,7 @@
 public class Book
 {
     public long Id { get; set; }
-    public string Titel { get; set; } = default!;
+    public string Title { get; set; } = default!;
     public string Isbn { get; set; } = default!;
     public int Quantity { get; set; }
     public long AuthorId { get; set; }
