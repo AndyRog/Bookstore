@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Bookstore.Application.Unittests.Validation
 {
@@ -27,7 +28,7 @@ namespace Bookstore.Application.Unittests.Validation
         }
         
         [Fact]
-        public void Validation_Error_For_Emty_Titel()
+        public void Validation_Error_For_Emty_Title()
         {
             //Arrange
             var bookCreate = new BookCreate("1234567891234", string.Empty, 1, 0);
@@ -44,7 +45,7 @@ namespace Bookstore.Application.Unittests.Validation
         
         
         [Fact]
-        public void Validation_Error_For_Too_Long_Titel()
+        public void Validation_Error_For_Too_Long_Title()
         {
             //Arrange
             var bookCreate = new BookCreate("1234567891234", @"AAAAAAAAAA\r\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 1, 0);
