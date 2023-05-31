@@ -30,10 +30,10 @@ namespace Bookstore.Application.Unittests.Validation
         public void Validation_Error_For_Emty_Title()
         {
             //Arrange
-            var bookCreate = new BookCreate("1234567891234", string.Empty, 1, 0);
+            var bookUpdate = new BookUpdate(1,"1234567891234", string.Empty, 1);
 
             //Act
-            var result = BookUpdateValidator.Validate(bookCreate);
+            var result = BookUpdateValidator.Validate(bookUpdate);
 
             //Assert
             Assert.False(result.IsValid);
@@ -44,13 +44,13 @@ namespace Bookstore.Application.Unittests.Validation
         
         
         [Fact]
-        public void Validation_Error_For_Too_Long_Titel()
+        public void Validation_Error_For_Too_Long_Title()
         {
             //Arrange
-            var bookCreate = new BookCreate("1234567891234", @"AAAAAAAAAA\r\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 1, 0);
+            var bookUpdate = new BookUpdate(1,"1234567891234", @"AAAAAAAAAA\r\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 1);
 
             //Act
-            var result = BookUpdateValidator.Validate(bookCreate);
+            var result = BookUpdateValidator.Validate(bookUpdate);
 
             //Assert
             Assert.False(result.IsValid);
