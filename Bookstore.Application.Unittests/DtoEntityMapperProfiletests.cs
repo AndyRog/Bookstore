@@ -1,4 +1,5 @@
 using AutoMapper;
+using Xunit;
 
 namespace Bookstore.Application.Unittests;
 
