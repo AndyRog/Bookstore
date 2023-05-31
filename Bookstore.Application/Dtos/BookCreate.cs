@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Application.Dtos;
 
-public record BookCreate(string isbn, string titel, long AuthorId, int Quantity );
+public record BookCreate(string ISBN, string Titel, long AuthorId, int Quantity );
 
