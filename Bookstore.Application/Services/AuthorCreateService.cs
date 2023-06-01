@@ -2,6 +2,7 @@
 using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Validation;
+using Bookstore.Domain.Entities;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ public class AuthorCreateService
     public async Task<long> CreateAuthor(AuthorCreate authorCreate)
     {
         await AuthorCreateValidator.ValidateAndThrowAsync(authorCreate);
-        var author = Mapper.Map<AuthorCreate>(authorCreate);
+        var author = Mapper.Map<Author>(authorCreate);
         long id = await AuthorRepository.AddAuthor(author);
         return id;
     }

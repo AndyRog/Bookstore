@@ -3,6 +3,7 @@ using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Services;
 using Bookstore.Application.Validation;
+using Bookstore.Domain.Entities;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,12 @@ namespace Bookstore.Application.Unittests.Services
 
             //Act
             await authorCreateService.CreateAuthor(authorCreate);
+
+            //Assert
+
+            authorRepositoryMock.Verify(authorRepositoryMock => authorRepositoryMock.AddAuthor(It.IsAny<Author>()), Times.Once);
+           
+
         }
 
     }
