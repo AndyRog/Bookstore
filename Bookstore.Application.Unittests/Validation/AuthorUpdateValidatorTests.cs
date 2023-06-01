@@ -9,18 +9,18 @@ using Xunit;
 
 namespace Bookstore.Application.Unittests.Validation
 {
-    public class AuthorCreateValidatorTests
+    public class AuthorUpdateValidatorTests
     {
-        private AuthorCreateValidator AuthorCreateValidator { get; } = new AuthorCreateValidator();
+        private AuthorUpdateValidator AuthorUpdateValidator { get; } = new AuthorUpdateValidator();
 
         [Fact]
-        public void Valid_AuthorCreate_Passes_Validation()
+        public void Valid_AuthorUpdate_Passes_Validation()
         {
             //Arrange
-            var AuthorCreate = new AuthorCreate("Test", "Test");
+            var authorUpdate = new AuthorUpdate(1,"Test", "Test");
 
             //Act
-            var result = AuthorCreateValidator.Validate(AuthorCreate);
+            var result = AuthorUpdateValidator.Validate(authorUpdate);
 
             //Assert
             Assert.True(result.IsValid);
@@ -31,10 +31,10 @@ namespace Bookstore.Application.Unittests.Validation
         public void Validation_Error_For_Emty_FirstName()
         {
             //Arrange
-            var AuthorCreate = new AuthorCreate(string.Empty,"test" );
+            var authorUpdate = new AuthorUpdate(1,string.Empty,"test" );
 
             //Act
-            var result = AuthorCreateValidator.Validate(AuthorCreate);
+            var result = AuthorUpdateValidator.Validate(authorUpdate);
 
             //Assert
             Assert.False(result.IsValid);
@@ -47,10 +47,10 @@ namespace Bookstore.Application.Unittests.Validation
         public void Validation_Error_For_Emty_LastName()
         {
             //Arrange
-            var authorCreate = new AuthorCreate("test", string.Empty );
+            var authorUpdate = new AuthorUpdate(1, "test", string.Empty);
 
             //Act
-            var result = AuthorCreateValidator.Validate(authorCreate);
+            var result = AuthorUpdateValidator.Validate(authorUpdate);
 
             //Assert
             Assert.False(result.IsValid);
@@ -63,10 +63,10 @@ namespace Bookstore.Application.Unittests.Validation
         public void Validation_Error_For_Too_Long_FirstName()
         {
             //Arrange
-            var authorCreate = new AuthorCreate(@"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "test");
+            var authorUpdate = new AuthorUpdate(1, @"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "test");
 
             //Act
-            var result = AuthorCreateValidator.Validate(authorCreate);
+            var result = AuthorUpdateValidator.Validate(authorUpdate);
 
             //Assert
             Assert.False(result.IsValid);
@@ -79,10 +79,10 @@ namespace Bookstore.Application.Unittests.Validation
         public void Validation_Error_For_Too_Long_LastName()
         {
             //Arrange
-            var authorCreate = new AuthorCreate("test", @"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            var authorUpdate = new AuthorUpdate(1, "test", @"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
             //Act
-            var result = AuthorCreateValidator.Validate(authorCreate);
+            var result = AuthorUpdateValidator.Validate(authorUpdate);
 
             //Assert
             Assert.False(result.IsValid);
