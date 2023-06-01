@@ -1,4 +1,4 @@
-﻿namespace Bookstore.Application.Services
+﻿namespace Bookstore.Application.Contracts
 {
     public interface IAuthorRepository
     {
