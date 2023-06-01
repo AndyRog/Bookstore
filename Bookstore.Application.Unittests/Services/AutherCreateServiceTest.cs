@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
+using Bookstore.Application.Services;
 using Bookstore.Application.Validation;
 using Moq;
 using System;
@@ -29,7 +31,9 @@ namespace Bookstore.Application.Unittests.Services
             //Arrange
             var authorCreate = new AuthorCreate("test", "test");
 
-            var autherRepositoryMock = new Mock<>
+            var authorRepositoryMock = new Mock<IAuthorRepository>();
+
+            var authorCreateService = new AuthorCreateService(authorRepositoryMock.Object, Mapper, Validator);
         }
 
     }
