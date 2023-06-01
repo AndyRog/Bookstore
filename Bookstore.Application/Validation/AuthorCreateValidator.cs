@@ -15,6 +15,7 @@ public class AuthorCreateValidator : AbstractValidator<AuthorCreate>
     {
         //Die Regeln: Vorname und Nachname string Länge(max. 30) und das Buch hat keine Title (darf nicht leer sein) implementiert
 
-        RuleFor(authorCreate => authorCreate.Title).NotEmpty().MaximumLength(100);
+        RuleFor(authorCreate => authorCreate.FirstName).NotEmpty().MaximumLength(50);
+        RuleFor(authorCreate => authorCreate.LastName).NotEmpty().MaximumLength(50);
     }
 }

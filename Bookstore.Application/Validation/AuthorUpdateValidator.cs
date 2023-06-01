@@ -13,9 +13,9 @@ public class AuthorUpdateValidator : AbstractValidator<AuthorUpdate>
 {
     public AuthorUpdateValidator()
     {
-        //Die Regeln: Vorname und Nachname string Länge(max. 30) und das Buch hat keine Title (darf nicht leer sein) implementiert
+        //Die Regeln: Vorname und Nachname string Länge(max. 50) und das Buch hat keine Title (darf nicht leer sein) implementiert
 
-        RuleFor(authorUpdate => authorUpdate.FirstName).NotEmpty().MaximumLength(100);
-        RuleFor(authorUpdate => authorUpdate.LastName).NotEmpty().MaximumLength(100);
+        RuleFor(authorUpdate => authorUpdate.FirstName).NotEmpty().MaximumLength(50);
+        RuleFor(authorUpdate => authorUpdate.LastName).NotEmpty().MaximumLength(50);
     }
 }
