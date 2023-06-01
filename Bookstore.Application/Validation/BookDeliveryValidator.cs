@@ -12,6 +12,6 @@ public class BookDeliveryValidator : AbstractValidator<BookDelivery>
 {
     public BookDeliveryValidator()
     {
-        RuleFor(delivery => delivery.Quantity).GreaterThanOrEqualTo(0);
+        RuleFor(delivery => delivery.Quantity).GreaterThan(0);
     }
 }
