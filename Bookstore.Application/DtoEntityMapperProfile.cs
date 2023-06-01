@@ -11,5 +11,13 @@ public class DtoEntityMapperProfile : Profile
         CreateMap<BookCreate, Book>().ForMember(destinationMember => destinationMember.Id, options => options.Ignore()).ForMember(destinationMember => destinationMember.Author, options => options.Ignore());
 
         CreateMap<BookUpdate, Book>().ForMember(destinationMember => destinationMember.Id, options => options.Ignore()).ForMember(destinationMember => destinationMember.Quantity, options => options.Ignore()).ForMember(destinationMember => destinationMember.Author, options => options.Ignore());
+
+        CreateMap<AuthorCreate, Author>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Books, opt => opt.Ignore());
+        
+        CreateMap<AuthorUpdate, Author>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Books, opt => opt.Ignore());
     }
 }
