@@ -1,6 +1,5 @@
-﻿namespace Bookstore.Application.Contracts
+﻿namespace Bookstore.Application.Contracts;
+
+public interface IAuthorRepository
 {
-    public interface IAuthorRepository
-    {
-    }
 }
