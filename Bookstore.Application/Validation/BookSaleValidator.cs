@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Application.Validation;
 
-public class BookSaleValidator : AbstractValidator<BookDelivery>
+public class BookSaleValidator : AbstractValidator<BookSale>
 {
-    public BookSaleValidator()
+    public BookSaleValidator() 
     {
         RuleFor(sale => sale.Quantity).GreaterThan(0);
     }

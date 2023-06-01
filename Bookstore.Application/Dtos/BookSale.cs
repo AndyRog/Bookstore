@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Application.Dtos;
 
-public record BookDelivery(long BookId, int Quantity );
+public record BookSale(long BookId, int Quantity );
 
