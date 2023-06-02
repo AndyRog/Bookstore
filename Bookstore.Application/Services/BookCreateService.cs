@@ -48,8 +48,8 @@ namespace Bookstore.Application.Services
 
             book.Author = author;
             await BookValidator.ValidateAndThrowAsync(book);
-            long id = await BookRepository.AddBook(book);
-            return book.Id;
+            var id = await BookRepository.AddBook(book);
+            return id;
         }
     }
 }
