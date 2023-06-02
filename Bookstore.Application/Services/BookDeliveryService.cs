@@ -22,6 +22,8 @@ public class BookDeliveryService
         BookRepository = bookRepository;
         BookDeliveryValidator = bookDeliveryValidator;
     }
+   
+    
     public async Task ProcessBookDelivery(BookDelivery bookDelivery)
     {
         await BookDeliveryValidator.ValidateAndThrowAsync(bookDelivery);
