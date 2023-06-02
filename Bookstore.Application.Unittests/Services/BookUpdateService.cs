@@ -53,7 +53,7 @@ public  class BookUpdateService
         }
 
 
-        Book? existingBookForIsbn = await BookRepository.GetBookIsbn(bookUpdate.ISBN);
+        Book? existingBookForIsbn = await BookRepository.GetBookByIsbn(bookUpdate.ISBN);
         if(existingBookForIsbn != null && existingBookForIsbn.Id != book.Id)
         {
             throw new BookForIsbnDublicateException();

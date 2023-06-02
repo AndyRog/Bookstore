@@ -6,6 +6,6 @@ public interface IBookRepository
 {
     Task<long> AddBook(Book book);
     Task<Book?> GetBookById(long bookId);
-    Task<Book?> GetBookIsbn(string iSBN);
+    Task<Book?> GetBookByIsbn(string iSBN);
     Task Update();
 }
