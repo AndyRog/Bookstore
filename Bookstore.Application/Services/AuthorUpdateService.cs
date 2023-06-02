@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
+using Bookstore.Application.Exceptions;
 using Bookstore.Application.Validation;
+using Bookstore.Domain.Entities;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +27,16 @@ namespace Bookstore.Application.Services
 
         public async Task UpdateAuthor(AuthorUpdate authorUpdate)
         {
-            await Validation.AuthorUpdateValidator.ValidateAndThrowAsync(authorUpdate);
+            await AuthorUpdateValidator.ValidateAndThrowAsync(authorUpdate);
+            Author? author = await AuthorRepository.GetAuthorById(authorUpdate.AuthorId);
+            if (author == null)
+            {
+                throw new AuthorNotFoundException();
+            }
+
+            Mapper.Map(authorUpdate, author);
+            await AuthorRepository.Update();
+
         }
        
     }
