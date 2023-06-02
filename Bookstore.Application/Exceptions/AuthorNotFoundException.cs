@@ -3,7 +3,7 @@
 namespace Bookstore.Application.Exceptions
 {
     [Serializable]
-    internal class AuthorNotFoundException : Exception
+    public class AuthorNotFoundException : Exception
     {
         public AuthorNotFoundException()
         {
