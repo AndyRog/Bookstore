@@ -39,7 +39,7 @@ public  class BookUpdateService
     {
         await BookUpdateValidator.ValidateAsync(bookUpdate);
 
-        Book? book = await BookRepository.GetBookId(bookUpdate.BookId);
+        Book? book = await BookRepository.GetBookById(bookUpdate.BookId);
 
         if (book == null)
         {

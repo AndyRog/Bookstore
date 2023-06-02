@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bookstore.Applicatio.Exceptions;
 using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Validation;
@@ -35,7 +36,7 @@ namespace Bookstore.Application.Unittests.Services
             var bookUpdate = new BookUpdate(1, "1234567891234", "Test", 1);
 
             var bookRepositoryMock = new Mock<IBookRepository >();
-            bookRepositoryMock.Setup(mock => mock.GetBookId(1)).ReturnsAsync(new Book());
+            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).ReturnsAsync(new Book());
 
             var authorRepositoryMock = new Mock<IAuthorRepository >();
             authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).ReturnsAsync(new Author());
@@ -47,6 +48,28 @@ namespace Bookstore.Application.Unittests.Services
 
             //Assert
             bookRepositoryMock.Verify(mock => mock.Update(), Times.Once());
+
+        }
+        
+        [Fact]
+        public void BookNotFondException_For_Non_Existent_Book()
+        {
+            //Arrange
+            var bookUpdate = new BookUpdate(1, "1234567891234", "Test", 1);
+
+            var bookRepositoryMock = new Mock<IBookRepository >();
+            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).Returns<Book>(null);
+
+            var authorRepositoryMock = new Mock<IAuthorRepository >();
+            authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).ReturnsAsync(new Author());
+
+            var bookUpdateService = new BookUpdateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookValidator, BookUpdateValidator);
+
+            //Act
+            Func<Task> func =  async () => await bookUpdateService.UpdateBook(bookUpdate);
+
+            //Assert
+            Assert.ThrowsAsync<BookNotFoundException>(func);
 
         }
     }
