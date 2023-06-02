@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
+using Bookstore.Application.Exceptions;
 using Bookstore.Application.Validation;
 using Bookstore.Domain.Entities;
 using Bookstore.Domain.Validation;
@@ -36,6 +37,14 @@ namespace Bookstore.Application.Services
 
             Author? author = await AuthorRepository.FindByAsync(bookCreate.AuthorId);
             Book? existingBookForIsbn = await BookRepository.GetBookIsbn(bookCreate.ISBN);
+            if(author == null)
+            {
+                throw new AuthorNotFoundException();
+            }
+            if(existingBookForIsbn != null) 
+            {
+                throw new BookForIsbnDublicateException();
+            }
         }
     }
 }
