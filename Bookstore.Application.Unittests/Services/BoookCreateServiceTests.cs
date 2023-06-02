@@ -69,4 +69,27 @@ public class BoookCreateServiceTests
        
 
     }
+
+    [Fact]
+    public void BookForIsbnDublicateException_For_Exicting_ISBN()
+    {
+        //Arrange
+        var bookCreate = new BookCreate("1234567891234", "Test", 1, 0);
+        
+        var bookRepositoryMock = new Mock<IBookRepository>();
+        bookRepositoryMock.Setup(mock => mock.GetBookIsbn("1234567891234")).ReturnsAsync(new Book());
+
+        var authorRepositoryMock = new Mock<IAuthorRepository>();
+        authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).ReturnsAsync(  new Author());
+
+        var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
+
+        //Act
+        Func<Task> func = async () => await bookCreateService.CreateBook(bookCreate);
+
+        //Assert
+        Assert.ThrowsAsync<BookForIsbnDublicateException>(func);
+
+
+    }
 }
