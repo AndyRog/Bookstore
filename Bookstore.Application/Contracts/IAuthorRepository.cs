@@ -6,7 +6,7 @@ namespace Bookstore.Application.Contracts;
 public interface IAuthorRepository
 {
     Task<long> AddAuthor(Author author);
-    Task<Author?> FindByAsync(long authorId);
+    
     Task<Author?> GetAuthorById(long authorId);
     Task Update();
 }

@@ -35,7 +35,7 @@ namespace Bookstore.Application.Services
             await BookCreateValidator.ValidateAndThrowAsync(bookCreate);
             var book = Mapper.Map<Book>(bookCreate);
 
-            Author? author = await AuthorRepository.FindByAsync(bookCreate.AuthorId);
+            Author? author = await AuthorRepository.GetAuthorById(bookCreate.AuthorId);
             Book? existingBookForIsbn = await BookRepository.GetBookIsbn(bookCreate.ISBN);
             if(author == null)
             {
