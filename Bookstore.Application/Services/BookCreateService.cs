@@ -45,6 +45,11 @@ namespace Bookstore.Application.Services
             {
                 throw new BookForIsbnDublicateException();
             }
+
+            book.Author = author;
+            await BookValidator.ValidateAndThrowAsync(book);
+            long id = await BookRepository.AddBook(book);
+            return book.Id;
         }
     }
 }
