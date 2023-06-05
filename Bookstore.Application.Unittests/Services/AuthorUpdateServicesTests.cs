@@ -38,7 +38,7 @@ namespace Bookstore.Application.Unittests.Services
             var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator);
 
             //Act
-            await authorUpdateService.UpdateAuthor(authorUpdate);
+            await authorUpdateService.UpdateAuthorAsync(authorUpdate);
 
             //Assert
             authorRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once);
@@ -55,7 +55,7 @@ namespace Bookstore.Application.Unittests.Services
             var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator);
 
             //Actio
-            Func<Task> func = async () => await authorUpdateService.UpdateAuthor(authorUpdate);
+            Func<Task> func = async () => await authorUpdateService.UpdateAuthorAsync(authorUpdate);
 
             //Assert
             Assert.ThrowsAsync<AuthorNotFoundException>(func);

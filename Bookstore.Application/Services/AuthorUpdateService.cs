@@ -25,7 +25,7 @@ namespace Bookstore.Application.Services
             AuthorUpdateValidator = authorUpdateValidator;
         }
 
-        public async Task UpdateAuthor(AuthorUpdate authorUpdate)
+        public async Task UpdateAuthorAsync(AuthorUpdate authorUpdate)
         {
             await AuthorUpdateValidator.ValidateAndThrowAsync(authorUpdate);
             Author? author = await AuthorRepository.GetAuthorByIdAsync(authorUpdate.AuthorId);
