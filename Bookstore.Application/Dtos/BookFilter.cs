@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookstore.Application.Dtos
-{
-    internal class BookFilter
-    {
-    }
-}
+namespace Bookstore.Application.Dtos;
+
+public record BookFilter(string SearchTerm);
+
