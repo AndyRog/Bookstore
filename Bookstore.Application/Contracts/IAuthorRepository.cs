@@ -7,6 +7,6 @@ public interface IAuthorRepository
 {
     Task<long> AddAuthorAsync(Author author);
     
-    Task<Author?> GetAuthorById(long authorId);
+    Task<Author?> GetAuthorByIdAsync(long authorId);
     Task Update();
 }

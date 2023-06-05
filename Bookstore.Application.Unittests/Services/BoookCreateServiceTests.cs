@@ -39,7 +39,7 @@ public class BoookCreateServiceTests
         var bookRepositoryMock = new Mock<IBookRepository>();
         var authorRepositoryMock = new Mock<IAuthorRepository>();
 
-        authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).ReturnsAsync(new Author());
+        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(new Author());
         var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper,BookCreateValidator,BookValidator);
 
         //Act
@@ -58,7 +58,7 @@ public class BoookCreateServiceTests
         var bookRepositoryMock = new Mock<IBookRepository>();
         var authorRepositoryMock = new Mock<IAuthorRepository>();
 
-        authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).Returns<Author?>(null);
+        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).Returns<Author?>(null);
         var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
 
         //Act
@@ -80,7 +80,7 @@ public class BoookCreateServiceTests
         bookRepositoryMock.Setup(mock => mock.GetBookById(1)).ReturnsAsync(new Book() { Id = 1}); bookRepositoryMock.Setup(mock => mock.GetBookByIsbn("1234567891234")).ReturnsAsync(new Book() { Id = 2});
 
         var authorRepositoryMock = new Mock<IAuthorRepository>();
-        authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).ReturnsAsync(  new Author());
+        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(  new Author());
 
         var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
 

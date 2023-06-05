@@ -46,7 +46,7 @@ public  class BookUpdateService
             throw new BookNotFoundException();
         }
 
-        Author? author = await AuthorRepository.GetAuthorById(bookUpdate.AuthorId);
+        Author? author = await AuthorRepository.GetAuthorByIdAsync(bookUpdate.AuthorId);
         if (author == null) 
         {
             throw new AuthorNotFoundException();

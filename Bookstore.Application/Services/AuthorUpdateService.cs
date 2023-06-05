@@ -28,7 +28,7 @@ namespace Bookstore.Application.Services
         public async Task UpdateAuthor(AuthorUpdate authorUpdate)
         {
             await AuthorUpdateValidator.ValidateAndThrowAsync(authorUpdate);
-            Author? author = await AuthorRepository.GetAuthorById(authorUpdate.AuthorId);
+            Author? author = await AuthorRepository.GetAuthorByIdAsync(authorUpdate.AuthorId);
             if (author == null)
             {
                 throw new AuthorNotFoundException();

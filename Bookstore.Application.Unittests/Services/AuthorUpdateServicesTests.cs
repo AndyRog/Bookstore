@@ -34,7 +34,7 @@ namespace Bookstore.Application.Unittests.Services
             //Arrange
             var authorUpdate = new AuthorUpdate(1,"Test", "Test");
             var authorRepositoryMock = new Mock<IAuthorRepository>();
-            authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).ReturnsAsync(new Author());
+            authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(new Author());
             var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator);
 
             //Act
@@ -51,7 +51,7 @@ namespace Bookstore.Application.Unittests.Services
             //Arrange
             var authorUpdate = new AuthorUpdate(1, "Test", "Test");
             var authorRepositoryMock = new Mock<IAuthorRepository>();
-            authorRepositoryMock.Setup(mock => mock.GetAuthorById(1)).Returns<Author?>(null);
+            authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).Returns<Author?>(null);
             var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator);
 
             //Actio
