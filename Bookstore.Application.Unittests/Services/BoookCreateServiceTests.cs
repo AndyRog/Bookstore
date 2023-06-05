@@ -71,7 +71,7 @@ public class BoookCreateServiceTests
     }
 
     [Fact]
-    public void BookForIsbnDublicateException_For_Exicting_ISBN()
+    public void IsbnDublicateException_For_Exicting_ISBN()
     {
         //Arrange
         var bookCreate = new BookCreate("1234567891234", "Test", 1, 0);
