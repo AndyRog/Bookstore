@@ -29,7 +29,7 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public async Task Update_Existing_Author()
+        public async Task Author_Updated()
         {
             //Arrange
             var authorUpdate = new AuthorUpdate(1,"Test", "Test");
