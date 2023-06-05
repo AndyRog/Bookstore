@@ -39,7 +39,7 @@ public  class BookUpdateService
     {
         await BookUpdateValidator.ValidateAsync(bookUpdate);
 
-        Book? book = await BookRepository.GetBookById(bookUpdate.BookId);
+        Book? book = await BookRepository.GetBookByIdAsync(bookUpdate.BookId);
 
         if (book == null)
         {
@@ -53,7 +53,7 @@ public  class BookUpdateService
         }
 
 
-        Book? existingBookForIsbn = await BookRepository.GetBookByIsbn(bookUpdate.ISBN);
+        Book? existingBookForIsbn = await BookRepository.GetBookByIsbnAsync(bookUpdate.ISBN);
         if(existingBookForIsbn != null && existingBookForIsbn.Id != book.Id)
         {
             throw new BookForIsbnDublicateException();
@@ -62,7 +62,7 @@ public  class BookUpdateService
         book.Author = author;
         Mapper.Map(bookUpdate, book);
         await BookValidator.ValidateAndThrowAsync(book);
-        await BookRepository.Update();
+        await BookRepository.UpdateAsync();
 
     }
    

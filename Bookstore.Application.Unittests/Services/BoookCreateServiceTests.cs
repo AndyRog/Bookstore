@@ -46,7 +46,7 @@ public class BoookCreateServiceTests
         await bookCreateService.CreateBook(bookCreate);
 
         //Assert
-        bookRepositoryMock.Verify(mock => mock.AddBook(It.IsAny<Book>()), Times.Once);
+        bookRepositoryMock.Verify(mock => mock.AddBookAsync(It.IsAny<Book>()), Times.Once);
 
     }
 
@@ -77,7 +77,7 @@ public class BoookCreateServiceTests
         var bookCreate = new BookCreate("1234567891234", "Test", 1, 0);
         
         var bookRepositoryMock = new Mock<IBookRepository>();
-        bookRepositoryMock.Setup(mock => mock.GetBookById(1)).ReturnsAsync(new Book() { Id = 1}); bookRepositoryMock.Setup(mock => mock.GetBookByIsbn("1234567891234")).ReturnsAsync(new Book() { Id = 2});
+        bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(new Book() { Id = 1}); bookRepositoryMock.Setup(mock => mock.GetBookByIsbnAsync("1234567891234")).ReturnsAsync(new Book() { Id = 2});
 
         var authorRepositoryMock = new Mock<IAuthorRepository>();
         authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(  new Author());

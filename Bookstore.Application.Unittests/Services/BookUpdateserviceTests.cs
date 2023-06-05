@@ -36,7 +36,7 @@ namespace Bookstore.Application.Unittests.Services
             var bookUpdate = new BookUpdate(1, "1234567891234", "Test", 1);
 
             var bookRepositoryMock = new Mock<IBookRepository >();
-            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).ReturnsAsync(new Book());
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(new Book());
 
             var authorRepositoryMock = new Mock<IAuthorRepository >();
             authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(new Author());
@@ -47,7 +47,7 @@ namespace Bookstore.Application.Unittests.Services
             await bookUpdateService.UpdateBook(bookUpdate);
 
             //Assert
-            bookRepositoryMock.Verify(mock => mock.Update(), Times.Once());
+            bookRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once());
 
         }
         
@@ -58,7 +58,7 @@ namespace Bookstore.Application.Unittests.Services
             var bookUpdate = new BookUpdate(1, "1234567891234", "Test", 1);
 
             var bookRepositoryMock = new Mock<IBookRepository >();
-            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).Returns<Book>(null);
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).Returns<Book>(null);
 
             var authorRepositoryMock = new Mock<IAuthorRepository >();
             authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(new Author());

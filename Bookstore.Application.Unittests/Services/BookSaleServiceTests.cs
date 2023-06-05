@@ -39,13 +39,13 @@ namespace Bookstore.Application.Unittests.Services
             var bookSale = new BookSale(1, 1);
             
             var bookRepositoryMock = new Mock<IBookRepository>();
-            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).ReturnsAsync(new Book() { Quantity = 1, Author = new Author()});
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(new Book() { Quantity = 1, Author = new Author()});
             var bookSaleService = new BookSaleService( bookRepositoryMock.Object, BookSaleValidator, BookValidator);
             //Act
             await bookSaleService.ProcessBookDelivery(bookSale);
 
             //Assert
-            bookRepositoryMock.Verify(mock => mock.Update(), Times.Once());
+            bookRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once());
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace Bookstore.Application.Unittests.Services
             var bookSale = new BookSale(1, 1);
 
             var bookRepositoryMock = new Mock<IBookRepository>();
-            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).Returns<Book?>(null);
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).Returns<Book?>(null);
             var bookSaleService = new BookSaleService(bookRepositoryMock.Object, BookSaleValidator, BookValidator);
             //Act
             Func<Task> func = async () => await bookSaleService.ProcessBookDelivery(bookSale);

@@ -31,7 +31,7 @@ public class BookSaleService
     {
         await BookSaleValidator.ValidateAndThrowAsync(bookSale);
 
-        Book? book = await BookRepository.GetBookById(bookSale.BookId);
+        Book? book = await BookRepository.GetBookByIdAsync(bookSale.BookId);
         if (book == null)
         {
             throw new BookNotFoundException();
@@ -41,7 +41,7 @@ public class BookSaleService
 
         await BookValidator.ValidateAndThrowAsync(book);
 
-        await BookRepository.Update();
+        await BookRepository.UpdateAsync();
     }
 
 }
