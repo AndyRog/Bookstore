@@ -32,7 +32,7 @@ public class BoookCreateServiceTests
     }
 
     [Fact]
-    public async Task Add_Book()
+    public async Task Book_Added()
     {
         //Arrange
         var bookCreate = new BookCreate("1234567891234", "Test",1,0);
