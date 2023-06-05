@@ -27,7 +27,7 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public async Task Quantaty_Increased()
+        public async Task Quantaty_Increased() //Menge erhöht
         {
             //Arrenge
             var bookDelivery = new BookDelivery(1, 1);
