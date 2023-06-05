@@ -35,7 +35,7 @@ public  class BookUpdateService
     }
 
     // Method
-    public async Task UpdateBook(BookUpdate bookUpdate)
+    public async Task UpdateBookAsync(BookUpdate bookUpdate)
     {
         await BookUpdateValidator.ValidateAsync(bookUpdate);
 
