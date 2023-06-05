@@ -1,5 +1,6 @@
 using Bookstore.Domain.Entities;
 using Bookstore.Domain.Validation;
+using Xunit;
 
 namespace Bookstore.Domain.Unittests.Validation
 {
