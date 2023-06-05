@@ -88,7 +88,7 @@ public class BoookCreateServiceTests
         Func<Task> func = async () => await bookCreateService.CreateBook(bookCreate);
 
         //Assert
-        Assert.ThrowsAsync<BookForIsbnDublicateException>(func);
+        Assert.ThrowsAsync<IsbnDublicateException>(func);
 
 
     }

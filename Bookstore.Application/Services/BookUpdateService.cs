@@ -56,7 +56,7 @@ public  class BookUpdateService
         Book? existingBookForIsbn = await BookRepository.GetBookByIsbnAsync(bookUpdate.ISBN);
         if(existingBookForIsbn != null && existingBookForIsbn.Id != book.Id)
         {
-            throw new BookForIsbnDublicateException();
+            throw new IsbnDublicateException();
         }
 
         book.Author = author;

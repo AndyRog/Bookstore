@@ -43,7 +43,7 @@ namespace Bookstore.Application.Services
             }
             if(existingBookForIsbn != null) 
             {
-                throw new BookForIsbnDublicateException();
+                throw new IsbnDublicateException();
             }
 
             book.Author = author;
