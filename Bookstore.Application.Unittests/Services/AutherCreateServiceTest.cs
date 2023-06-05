@@ -41,7 +41,7 @@ namespace Bookstore.Application.Unittests.Services
 
             //Assert
 
-            authorRepositoryMock.Verify(authorRepositoryMock => authorRepositoryMock.AddAuthor(It.IsAny<Author>()), Times.Once);
+            authorRepositoryMock.Verify(authorRepositoryMock => authorRepositoryMock.AddAuthorAsync(It.IsAny<Author>()), Times.Once);
            
 
         }

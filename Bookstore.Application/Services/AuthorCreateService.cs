@@ -28,7 +28,7 @@ public class AuthorCreateService
     {
         await AuthorCreateValidator.ValidateAndThrowAsync(authorCreate);
         var author = Mapper.Map<Author>(authorCreate);
-        long id = await AuthorRepository.AddAuthor(author);
+        long id = await AuthorRepository.AddAuthorAsync(author);
         return id;
     }
 }
