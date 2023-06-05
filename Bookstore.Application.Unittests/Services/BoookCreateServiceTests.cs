@@ -43,7 +43,7 @@ public class BoookCreateServiceTests
         var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper,BookCreateValidator,BookValidator);
 
         //Act
-        await bookCreateService.CreateBook(bookCreate);
+        await bookCreateService.CreateBookAsync(bookCreate);
 
         //Assert
         bookRepositoryMock.Verify(mock => mock.AddBookAsync(It.IsAny<Book>()), Times.Once);
@@ -62,7 +62,7 @@ public class BoookCreateServiceTests
         var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
 
         //Act
-        Func<Task> func = async () => await bookCreateService.CreateBook(bookCreate);
+        Func<Task> func = async () => await bookCreateService.CreateBookAsync(bookCreate);
 
         //Assert
         Assert.ThrowsAsync<AuthorNotFoundException>(func);
@@ -85,7 +85,7 @@ public class BoookCreateServiceTests
         var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
 
         //Act
-        Func<Task> func = async () => await bookCreateService.CreateBook(bookCreate);
+        Func<Task> func = async () => await bookCreateService.CreateBookAsync(bookCreate);
 
         //Assert
         Assert.ThrowsAsync<IsbnDublicateException>(func);

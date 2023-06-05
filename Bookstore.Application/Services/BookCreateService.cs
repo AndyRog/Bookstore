@@ -30,7 +30,7 @@ namespace Bookstore.Application.Services
             BookCreateValidator = bookCreateValidator;
             BookValidator = bookValidator;
         }
-        public async Task<long> CreateBook(BookCreate bookCreate)
+        public async Task<long> CreateBookAsync(BookCreate bookCreate)
         {
             await BookCreateValidator.ValidateAndThrowAsync(bookCreate);
             var book = Mapper.Map<Book>(bookCreate);
