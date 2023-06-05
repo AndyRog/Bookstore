@@ -37,7 +37,7 @@ namespace Bookstore.Application.Unittests.Services
             var authorCreateService = new AuthorCreateService(authorRepositoryMock.Object, Mapper, Validator);
 
             //Act
-            await authorCreateService.CreateAuthor(authorCreate);
+            await authorCreateService.CreateAuthorAsync(authorCreate);
 
             //Assert
 

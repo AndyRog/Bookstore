@@ -24,7 +24,7 @@ public class AuthorCreateService
         Mapper = mapper;
         AuthorCreateValidator = authorCreateValidator;
     }
-    public async Task<long> CreateAuthor(AuthorCreate authorCreate)
+    public async Task<long> CreateAuthorAsync(AuthorCreate authorCreate)
     {
         await AuthorCreateValidator.ValidateAndThrowAsync(authorCreate);
         var author = Mapper.Map<Author>(authorCreate);
