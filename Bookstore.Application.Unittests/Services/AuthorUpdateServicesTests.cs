@@ -41,7 +41,7 @@ namespace Bookstore.Application.Unittests.Services
             await authorUpdateService.UpdateAuthor(authorUpdate);
 
             //Assert
-            authorRepositoryMock.Verify(mock => mock.Update(), Times.Once);
+            authorRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once);
 
         }
 

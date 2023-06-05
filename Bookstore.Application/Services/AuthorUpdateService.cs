@@ -35,7 +35,7 @@ namespace Bookstore.Application.Services
             }
 
             Mapper.Map(authorUpdate, author);
-            await AuthorRepository.Update();
+            await AuthorRepository.UpdateAsync();
 
         }
        
