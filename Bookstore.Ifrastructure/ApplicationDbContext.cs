@@ -12,8 +12,8 @@ namespace Bookstore.Ifrastructure;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 {
-    public DbSet<Book> Books {get; set;}
-    public DbSet<Author> Authors { get; set; }
+    public DbSet<Book> Books { get; set; } = default!;
+    public DbSet<Author> Authors { get; set; } = default!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
