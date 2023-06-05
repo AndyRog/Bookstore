@@ -1,5 +1,6 @@
 ﻿using Bookstore.Application.Contracts;
 using Bookstore.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +19,21 @@ namespace Bookstore.Ifrastructure.Repositories
         }
 
 
-        public Task<long> AddAuthorAsync(Author author)
+        public async Task<long> AddAuthorAsync(Author author)
         {
-            throw new NotImplementedException();
+            await DbContext.Authors.AddAsync(author);
+            await DbContext.SaveChangesAsync();
+            return author.Id;
         }
 
-        public Task<Author?> GetAuthorByIdAsync(long authorId)
+        public async Task<Author?> GetAuthorByIdAsync(long authorId)
         {
-            throw new NotImplementedException();
+            return await DbContext.Authors.Where(author => author.Id == authorId).SingleOrDefaultAsync();
         }
 
-        public Task UpdateAsync()
+        public async Task UpdateAsync()
         {
-            throw new NotImplementedException();
+            await DbContext.SaveChangesAsync();
         }
     }
 }
