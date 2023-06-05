@@ -3,21 +3,21 @@
 namespace Bookstore.Application.Exceptions;
 
 [Serializable]
-public class BookForIsbnDublicateException : Exception
+public class IsbnDublicateException : Exception
 {
-    public BookForIsbnDublicateException()
+    public IsbnDublicateException()
     {
     }
 
-    public BookForIsbnDublicateException(string? message) : base(message)
+    public IsbnDublicateException(string? message) : base(message)
     {
     }
 
-    public BookForIsbnDublicateException(string? message, Exception? innerException) : base(message, innerException)
+    public IsbnDublicateException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 
-    protected BookForIsbnDublicateException(SerializationInfo info, StreamingContext context) : base(info, context)
+    protected IsbnDublicateException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }
