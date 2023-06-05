@@ -27,18 +27,22 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public async Task Quantaty_Updated()
+        public async Task Quantaty_Increased()
         {
             //Arrenge
             var bookDelivery = new BookDelivery(1, 1);
-            
+
+            var book = new Book();
+
             var bookRepositoryMock = new Mock<IBookRepository>();
-            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(new Book());
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(book);
+
             var bookDeliveryService = new BookDeliveryService( bookRepositoryMock.Object, BookDeliveryValidator);
             //Act
             await bookDeliveryService.ProcessBookDeliveryAsync(bookDelivery);
 
             //Assert
+            Assert.Equal(1, book.Quantity);
             bookRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once());
         }
 
