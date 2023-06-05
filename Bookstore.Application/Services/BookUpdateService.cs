@@ -23,6 +23,10 @@ public  class BookUpdateService
     public IMapper Mapper { get; }
     public BookValidator BookValidator { get; }
     public BookUpdateValidator BookUpdateValidator { get; }
+    public IBookRepository Object1 { get; }
+    public IAuthorRepository Object2 { get; }
+    public BookUpdateValidator BookUpdateValidator1 { get; }
+    public BookValidator BookValidator1 { get; }
 
     //Construct
     public BookUpdateService(IBookRepository bookRepository, IAuthorRepository authorRepository, IMapper mapper, BookValidator bookValidator, BookUpdateValidator bookUpdateValidator)
@@ -32,6 +36,15 @@ public  class BookUpdateService
         Mapper = mapper;
         BookValidator = bookValidator;
         BookUpdateValidator = bookUpdateValidator;
+    }
+
+    public BookUpdateService(IBookRepository object1, IAuthorRepository object2, IMapper mapper, BookUpdateValidator bookUpdateValidator, BookValidator bookValidator)
+    {
+        Object1 = object1;
+        Object2 = object2;
+        Mapper = mapper;
+        BookUpdateValidator1 = bookUpdateValidator;
+        BookValidator1 = bookValidator;
     }
 
     // Method

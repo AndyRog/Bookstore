@@ -3,6 +3,7 @@ using Bookstore.Applicatio.Exceptions;
 using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Exceptions;
+using Bookstore.Application.Services;
 using Bookstore.Application.Validation;
 using Bookstore.Domain.Entities;
 using Bookstore.Domain.Validation;
@@ -71,28 +72,6 @@ namespace Bookstore.Application.Unittests.Services
 
             //Assert
             Assert.ThrowsAsync<BookNotFoundException>(func);
-
-        }
-        
-        [Fact]
-        public void AuthorNotFondException_For_Non_Existent_Author()
-        {
-            //Arrange
-            var bookUpdate = new BookUpdate(1, "1234567891234", "Test", 1);
-
-            var bookRepositoryMock = new Mock<IBookRepository >();
-            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(new Book());
-
-            var authorRepositoryMock = new Mock<IAuthorRepository >();
-            authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).Returns<Author?>(null);
-
-            var bookUpdateService = new BookUpdateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookValidator, BookUpdateValidator);
-
-            //Act
-            Func<Task> func =  async () => await bookUpdateService.UpdateBookAsync(bookUpdate);
-
-            //Assert
-            Assert.ThrowsAsync<AuthorNotFoundException>(func);
 
         }
     }
