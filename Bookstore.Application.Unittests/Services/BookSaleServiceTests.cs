@@ -18,15 +18,13 @@ namespace Bookstore.Application.Unittests.Services
 {
     public class BookSaleServiceTests
     {
-        private IMapper Mapper { get; }
+        
         private BookSaleValidator BookSaleValidator { get; }
         private BookValidator BookValidator { get; }
 
         public BookSaleServiceTests()
         {
-            Mapper = new MapperConfiguration(cfg =>cfg.AddMaps(typeof(DtoEntityMapperProfile))).CreateMapper();
-           
-            BookSaleValidator = new BookSaleValidator();
+           BookSaleValidator = new BookSaleValidator();
             
             BookValidator = new BookValidator();
                        
