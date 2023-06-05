@@ -27,7 +27,7 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public async Task Create_Author()
+        public async Task Author_Created()
         {
             //Arrange
             var authorCreate = new AuthorCreate("test", "test");
