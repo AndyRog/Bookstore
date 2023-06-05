@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bookstore.Applicatio.Exceptions;
 using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Services;
@@ -43,5 +44,21 @@ namespace Bookstore.Application.Unittests.Services
             bookRepositoryMock.Verify(mock => mock.Update(), Times.Once());
         }
 
+        [Fact]
+        public void BookNotFoundException_For_Non_Existent_BookId()
+        {
+            //Arrenge
+            var bookDelivery = new BookDelivery(1, 1);
+
+            var bookRepositoryMock = new Mock<IBookRepository>();
+            bookRepositoryMock.Setup(mock => mock.GetBookById(1)).Returns<Book?>(null);
+            var bookDeliveryService = new BookDeliveryService(bookRepositoryMock.Object, BookDeliveryValidator);
+            //Act
+            Func<Task> func = async () => await bookDeliveryService.ProcessBookDelivery(bookDelivery);
+
+            //Assert
+           Assert.ThrowsAsync<BookNotFoundException>(func);
+
+        }
     }
 }
