@@ -30,7 +30,7 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public async Task Update_Book()
+        public async Task Book_Updated()
         {
             //Arrange
             var bookUpdate = new BookUpdate(1, "1234567891234", "Test", 1);
