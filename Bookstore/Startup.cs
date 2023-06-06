@@ -4,6 +4,7 @@ using Bookstore.Application.Contracts;
 using Bookstore.Ifrastructure.Repositories;
 using Bookstore.Ifrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Diagnostics;
 
 public class Startup
 {
@@ -43,5 +44,20 @@ public class Startup
 
     }
 
-    
+    public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, ApplicationDbContext context, IdentitySeed identitySeed)
+    {
+        context.Database.EnsureCreated();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+        app.UseHttpsRedirection();
+        app.UseRouting();
+        app.UseAuthorization();
+        app.UseAuthentication();
+        app.UseEndpoints(endpoints => 
+        { endpoints.MapControllerRoute("default","{ controller}/{action=Index}/{id?}"); 
+        });
+        identitySeed.Seed().Wait();
+    }
 }
