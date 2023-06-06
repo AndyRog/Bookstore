@@ -39,7 +39,9 @@ public class Startup
 
         });
 
-        //services.AddScoped<IdentitySeed>
+        services.AddScoped<IdentitySeed>();
 
     }
+
+    
 }

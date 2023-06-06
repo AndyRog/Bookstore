@@ -29,7 +29,7 @@ namespace Bookstore.Ifrastructure
             var password = Configuration["ADMIN_PW"];
 
             var roles = new string[] { "Admin", "User" };
-            foreach (var role in roles) 
+            foreach (var role in roles)
             {
                 if (!ApplicationDbContext.Roles.Any(r => r.Name == role))
                 {
@@ -39,15 +39,16 @@ namespace Bookstore.Ifrastructure
                 if (!ApplicationDbContext.Users.Any(u => u.UserName == email))
                 {
                     var identity = new IdentityUser
-                    {UserName = email, Email = email};
+                    { UserName = email, Email = email };
 
                     var result = await UserManager.CreateAsync(identity, password);
-                    
+
                     var user = await UserManager.FindByNameAsync(email);
 
                     await UserManager.AddToRoleAsync(user, "Admin");
                 }
             }
         }
+
     }
 }
