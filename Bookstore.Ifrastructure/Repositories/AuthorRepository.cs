@@ -7,33 +7,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookstore.Ifrastructure.Repositories
+namespace Bookstore.Ifrastructure.Repositories;
+
+internal class AuthorRepository : IAuthorRepository
 {
-    internal class AuthorRepository : IAuthorRepository
+    public ApplicationDbContext DbContext { get; }
+    
+    public AuthorRepository(ApplicationDbContext dbContext)
     {
-        public ApplicationDbContext DbContext { get; }
-        
-        public AuthorRepository(ApplicationDbContext dbContext)
-        {
-            DbContext = dbContext;
-        }
+        DbContext = dbContext;
+    }
 
 
-        public async Task<long> AddAuthorAsync(Author author)
-        {
-            await DbContext.Authors.AddAsync(author);
-            await DbContext.SaveChangesAsync();
-            return author.Id;
-        }
+    public async Task<long> AddAuthorAsync(Author author)
+    {
+        await DbContext.Authors.AddAsync(author);
+        await DbContext.SaveChangesAsync();
+        return author.Id;
+    }
 
-        public async Task<Author?> GetAuthorByIdAsync(long authorId)
-        {
-            return await DbContext.Authors.Where(author => author.Id == authorId).SingleOrDefaultAsync();
-        }
+    public async Task<Author?> GetAuthorByIdAsync(long authorId)
+    {
+        return await DbContext.Authors.Where(author => author.Id == authorId).SingleOrDefaultAsync();
+    }
 
-        public async Task UpdateAsync()
-        {
-            await DbContext.SaveChangesAsync();
-        }
+    public async Task UpdateAsync()
+    {
+        await DbContext.SaveChangesAsync();
     }
 }
