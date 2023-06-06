@@ -49,7 +49,7 @@ public class Startup
         context.Database.EnsureCreated();
         app.UseSwagger();
         app.UseSwaggerUI();
-        app.UseMiddleware<ExceptionHandlerMiddleware>();
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseHttpsRedirection();
         app.UseRouting();
