@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Bookstore.Application;
+using Bookstore.Application.Contracts;
+using Bookstore.Ifrastructure.Repositories;
+using Bookstore.Ifrastructure;
+using Microsoft.AspNetCore.Identity;
 
 public class Startup
 {
