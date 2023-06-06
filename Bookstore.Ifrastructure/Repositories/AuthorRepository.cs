@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Ifrastructure.Repositories;
 
-internal class AuthorRepository : IAuthorRepository
+public class AuthorRepository : IAuthorRepository
 {
     public ApplicationDbContext DbContext { get; }
     

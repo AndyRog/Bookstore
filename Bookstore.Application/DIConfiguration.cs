@@ -10,27 +10,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookstore.Application
+namespace Bookstore.Application;
+
+public static class DIConfiguration
 {
-    public class DIConfiguration
+    public static void RegisterServices(IServiceCollection services)
     {
-        public static void RegisterServices(IServiceCollection services)
-        {
-            services.AddScoped<BookCreateService>();
-            services.AddScoped<BookUpdateService>();
-            services.AddScoped<BookDeliveryService>();
-            services.AddScoped<BookSaleService>();
-            services.AddScoped<AuthorCreateService>();
-            services.AddScoped<AuthorUpdateService>();
-            services.AddScoped<BookCreateValidator>();
-            services.AddScoped<BookUpdateValidator>();
-            services.AddScoped<BookDeliveryValidator>();
-            services.AddScoped<BookSaleValidator>();
-            services.AddScoped<BookValidator>();
-            services.AddScoped<AuthorCreateValidator>();
-            services.AddScoped<AuthorUpdateValidator>();
-            
-            services.AddAutoMapper(typeof(DtoEntityMapperProfile));
-        }
+        services.AddScoped<BookCreateService>();
+        services.AddScoped<BookUpdateService>();
+        services.AddScoped<BookDeliveryService>();
+        services.AddScoped<BookSaleService>();
+        services.AddScoped<AuthorCreateService>();
+        services.AddScoped<AuthorUpdateService>();
+        services.AddScoped<BookCreateValidator>();
+        services.AddScoped<BookUpdateValidator>();
+        services.AddScoped<BookDeliveryValidator>();
+        services.AddScoped<BookSaleValidator>();
+        services.AddScoped<BookValidator>();
+        services.AddScoped<AuthorCreateValidator>();
+        services.AddScoped<AuthorUpdateValidator>();
+        
+        services.AddAutoMapper(typeof(DtoEntityMapperProfile));
     }
 }
