@@ -77,9 +77,9 @@ public class ExceptionMiddleware
             var problemDetails = new ProblemDetails()
             {
                 Status = StatusCodes.Status400BadRequest,
-                Detail = JsonConvert.SerializeObject(ex.Error),
+                Detail = JsonConvert.SerializeObject(ex.Message),
                 Instance = "",
-                Title = "Isbn already Exists",
+                Title = "Validation exception",
                 Type = ""
             };
 
