@@ -27,7 +27,7 @@ namespace BookstoreAPI.Controllers
         
         
         [HttpPost]
-        [Route("Create")]
+        [Route("Update")]
         public async Task<IActionResult> UpdateAuthor(AuthorUpdate authorUpdate)
         {
             await AuthorUpdateService.UpdateAuthorAsync(authorUpdate);
