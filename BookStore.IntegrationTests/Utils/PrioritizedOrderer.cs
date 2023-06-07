@@ -4,21 +4,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 [assembly:CollectionBehavior(DisableTestParallelization = true)]
 namespace BookStore.IntegrationTests.Utils;
 
-public class PrioritizedOrderer : ITestCaseStarting
+public class PrioritizedOrderer : ITestCaseOrderer
 {
-    public ITestCase TestCase => throw new NotImplementedException();
+   
+    public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases) where TTestCase : ITestCase
+    {
+        var sortedMethods = new SortedDictionary<int, List<ITestCase>>();
 
-    public ITestMethod TestMethod => throw new NotImplementedException();
+        foreach (ITestCase testCase in testCases) 
+        {
+            int priority = 0;
+            foreach(IAttributeInfo attribute in testCase.TestMethod.Method.GetCustomAttributes(typeof(TestPriorityAttribute).AssemblyQualifiedName))
+            {
+                priority = attribute.GetNamedArgument<int>("Priority");
+            }
 
-    public ITestClass TestClass => throw new NotImplementedException();
+            GetOrCreate(sortedMethods, priority).Add(testCase);
+            
+        }
 
-    public ITestCollection TestCollection => throw new NotImplementedException();
+        foreach (var list in sortedMethods.Keys.Select(priority => sortedMethods[priority]))
+        {
+            list.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.TestMethod.Method.Name, y.TestMethod.Method.Name));
 
-    public ITestAssembly TestAssembly => throw new NotImplementedException();
+            foreach (TTestCase testCase in list)
+            {
+                yield return testCase;
+            }
 
-    public IEnumerable<ITestCase> TestCases => throw new NotImplementedException();
+        }
+    }
+
+    private TValue GetOrCreate<TKey, TValue>(IDictionary<TKey,TValue> dictionary, TKey key) where TValue : new()
+    {
+       TValue result;
+        if (dictionary.TryGetValue(key,out result))
+        {
+            return result;
+        }
+        result = new TValue();
+        dictionary[key] = result;
+        return result;
+    }
 }
