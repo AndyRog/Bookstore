@@ -1,6 +1,11 @@
-﻿namespace BookStore.IntegrationTests.Utils
+﻿namespace BookStore.IntegrationTests.Utils;
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+public class TestPriorityAttribute :Attribute
 {
-    public class TestPriorityAttribute
+    public int Priority { get; }
+    public TestPriorityAttribute(int priority)
     {
+        Priority = priority;
     }
+
 }
