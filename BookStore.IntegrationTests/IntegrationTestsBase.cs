@@ -1,6 +1,6 @@
 namespace BookStore.IntegrationTests
 {
-    public class UnitTest1
+    public class IntegrationTestsBase : IClassFixture<WebApplicationFactory>
     {
         [Fact]
         public void Test1()
