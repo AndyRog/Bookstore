@@ -27,7 +27,7 @@ public class BookSaleService
     }
    
     
-    public async Task ProcessBookDeliveryAsync(BookSale bookSale)
+    public async Task ProcessBookSaleAsync(BookSale bookSale)
     {
         await BookSaleValidator.ValidateAndThrowAsync(bookSale);
 
