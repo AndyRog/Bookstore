@@ -1,11 +1,12 @@
-﻿using Bookstore.Application.Services;
+﻿using Bookstore.Application.Dtos;
+using Bookstore.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookstoreAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AuthorController : Controller
+    public class AuthorController : ControllerBase
     {
         public AuthorCreateService AuthorCreateService { get; }
         public AuthorUpdateService AuthorUpdateService { get; }
@@ -16,7 +17,22 @@ namespace BookstoreAPI.Controllers
             AuthorUpdateService = authorUpdateService;
         }
 
-
+        [HttpPost]
+        [Route("Create")]
+        public async Task<IActionResult> CreateAuthor(AuthorCreate authorCreate)
+        {
+            var result = await AuthorCreateService.CreateAuthorAsync(authorCreate);
+            return Ok(result);
+        }
+        
+        
+        [HttpPost]
+        [Route("Create")]
+        public async Task<IActionResult> UpdateAuthor(AuthorUpdate authorUpdate)
+        {
+            await AuthorUpdateService.UpdateAuthorAsync(authorUpdate);
+            return Ok();
+        }
 
     }
 }
