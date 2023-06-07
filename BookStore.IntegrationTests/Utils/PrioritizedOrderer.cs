@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+[assembly:CollectionBehavior(DisableTestParallelization = true)]
 namespace BookStore.IntegrationTests.Utils
 {
-    internal class PrioritizedOrderer
+    public class PrioritizedOrderer
     {
     }
 }
