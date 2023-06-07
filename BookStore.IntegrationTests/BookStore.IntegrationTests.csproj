@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Bookstore\BookstoreAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
 </Project>
