@@ -43,7 +43,7 @@ public class AuthorCreateTests : IntegrationTestsBase
 
         //Assert
         response.EnsureSuccessStatusCode();
-        Assert.Equal(expectedAuthor, authorInDb)
+        Assert.Equal(expectedAuthor, authorInDb);
 
     }
 }

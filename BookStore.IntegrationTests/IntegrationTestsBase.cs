@@ -36,9 +36,5 @@ public class IntegrationTestsBase : IClassFixture<WebApplicationFactory<Startup>
     }
 
 
-    [Fact]
-    public void Test1()
-    {
-
-    }
+   
 }
