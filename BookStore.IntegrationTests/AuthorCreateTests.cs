@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookStore.IntegrationTests
+namespace BookStore.IntegrationTests;
+
+public class AuthorCreateTests : IntegrationTestsBase
 {
-    internal class AuthorCreateTests
+    public AuthorCreateTests(WebApplicationFactory<Startup> factory) : base(factory)
     {
+        
     }
 }
