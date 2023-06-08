@@ -32,7 +32,7 @@ public class AuthorCreateTests : IntegrationTestsBase
 
 
         //Act
-        var response = await Client.PostAsync("/Autor/Create", content);
+        var response = await Client.PostAsync("/Author/Create", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var authorenId = int.Parse(responseContent);
