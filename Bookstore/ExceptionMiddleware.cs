@@ -70,7 +70,7 @@ public class ExceptionMiddleware
 
             await context.Response.WriteAsync(problemDetailsJson);
         }
-        catch (ValidationException ex)
+        catch (FluentValidation.ValidationException ex)
         {
             context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -79,7 +79,7 @@ public class ExceptionMiddleware
                 Status = StatusCodes.Status400BadRequest,
                 Detail = JsonConvert.SerializeObject(ex.Message),
                 Instance = "",
-                Title = "Validation exception",
+                Title = "Validation Error",
                 Type = ""
             };
 

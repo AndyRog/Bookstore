@@ -45,5 +45,34 @@ public class AuthorCreateTests : IntegrationTestsBase
         response.EnsureSuccessStatusCode();
         Assert.Equal(expectedAuthor, authorInDb);
 
+        //Teardown
+        DbContext.Authors.Remove(authorInDb);
+        await DbContext.SaveChangesAsync();
+        
+
+    }
+
+    [Fact]
+    public async Task StatusCode_400_For_Validation()
+    {
+        //Arrange
+        var authorCreate = new AuthorCreate("Test", string.Empty);
+
+        var authorCreateJson = JsonConvert.SerializeObject(authorCreate);
+
+        var content = new StringContent(authorCreateJson, Encoding.UTF8, "application/json");
+
+        //Act
+        var response = await Client.PostAsync("/Author/Create", content);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        //Assert
+        Assert.Equal(400, (int)response.StatusCode);
+
+        Assert.Contains("Validation Error", responseContent);
+
+
+
     }
 }
