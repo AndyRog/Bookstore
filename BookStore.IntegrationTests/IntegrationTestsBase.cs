@@ -21,7 +21,7 @@ public class IntegrationTestsBase : IClassFixture<WebApplicationFactory<Startup>
     {
         Environment.SetEnvironmentVariable("ADMIN_EMAIL", "admin@test.de");
        
-        Environment.SetEnvironmentVariable("ADMIN_RW", "Admin!123Admin?");
+        Environment.SetEnvironmentVariable("ADMIN_PW", "Admin!123Admin?");
         
         Factory = factory;
         Client = factory.CreateClient();
