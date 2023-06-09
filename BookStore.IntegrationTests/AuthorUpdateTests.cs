@@ -44,7 +44,7 @@ public class AuthorUpdateTests : IntegrationTestsBase
         //Assert
         response.EnsureSuccessStatusCode();
         Assert.Equal(expectedAuthor, Author);
-
+        Dispose();
     }
     [Fact]
     public async Task StatusCode_400_For_Non_Existent_Author()
@@ -65,6 +65,7 @@ public class AuthorUpdateTests : IntegrationTestsBase
         Assert.Equal(400, (int) response.StatusCode);
         Assert.Contains("Author not found", responseContent);
 
+        Dispose();
     }
     
     [Fact]
@@ -86,5 +87,13 @@ public class AuthorUpdateTests : IntegrationTestsBase
         Assert.Equal(400, (int) response.StatusCode);
         Assert.Contains("Validation Error", responseContent);
 
+        Dispose();  
+    }
+
+    public void Dispose()
+    {
+        DbContext.Authors.Remove(Author);
+        DbContext.SaveChanges();
+        DbContext.Dispose();
     }
 }
