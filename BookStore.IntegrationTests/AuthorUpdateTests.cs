@@ -59,7 +59,7 @@ public class AuthorUpdateTests : IntegrationTestsBase
         var response = await Client.PutAsync("Author/Update", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
-       
+
         //Assert
        
         Assert.Equal(400, (int) response.StatusCode);
