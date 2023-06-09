@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ADMIN_EMAIL": "admin@test.de",
         "ADMIN_PW": "Admin!123Admin?"
-       
+
       }
     },
     "IIS Express": {

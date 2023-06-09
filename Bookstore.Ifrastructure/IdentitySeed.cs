@@ -25,10 +25,13 @@ namespace Bookstore.Ifrastructure
 
         public async Task Seed()
         {
-            var email = Configuration["ADMIN_EMAIL"];
+            var email = Configuration ["ADMIN_EMAIL"];
+            
             var password = Configuration["ADMIN_PW"];
 
             var roles = new string[] { "Admin", "User" };
+
+
             foreach (var role in roles)
             {
                 if (!ApplicationDbContext.Roles.Any(r => r.Name == role))
