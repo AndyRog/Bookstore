@@ -58,42 +58,24 @@ public class AuthorUpdateTests : IntegrationTestsBase
         //Act
         var response = await Client.PutAsync("Author/Update", content);
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-
-        //Assert
-       
-        Assert.Equal(400, (int) response.StatusCode);
-        Assert.Contains("Author not found", responseContent);
-
-        Dispose();
-    }
-    
     [Fact]
-    public async Task StatusCode_400_For_ValidationError()
+    public async Task Success_StatusCode_For_Updated_Autor()
     {
         //Arrange
-        var authorUpdate = new AuthorUpdate(long.MaxValue, "Test", string.Empty);
+        var authorUpdate = new AuthorUpdate(Author.Id, "Test", "Test2");
         var authorUpdateJson = JsonConvert.SerializeObject(authorUpdate);
         var content = new StringContent(authorUpdateJson, Encoding.UTF8, "application/json");
-        
+        var expectedAuthor = Mapper.Map<Author>(authorUpdate);
 
         //Act
         var response = await Client.PutAsync("Author/Update", content);
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-       
+        //Get Author from DB
+        await DbContext.Entry(Author).ReloadAsync();
+
         //Assert
-       
-        Assert.Equal(400, (int) response.StatusCode);
-        Assert.Contains("Validation Error", responseContent);
+        response.EnsureSuccessStatusCode();
+        Assert.Equal(expectedAuthor, Author);
 
-        Dispose();  
-    }
-
-    public void Dispose()
-    {
-        DbContext.Authors.Remove(Author);
-        DbContext.SaveChanges();
-        DbContext.Dispose();
     }
 }
