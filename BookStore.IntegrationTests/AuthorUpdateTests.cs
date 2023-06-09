@@ -66,4 +66,25 @@ public class AuthorUpdateTests : IntegrationTestsBase
         Assert.Contains("Author not found", responseContent);
 
     }
+    
+    [Fact]
+    public async Task StatusCode_400_For_ValidationError()
+    {
+        //Arrange
+        var authorUpdate = new AuthorUpdate(long.MaxValue, "Test", string.Empty);
+        var authorUpdateJson = JsonConvert.SerializeObject(authorUpdate);
+        var content = new StringContent(authorUpdateJson, Encoding.UTF8, "application/json");
+        
+
+        //Act
+        var response = await Client.PutAsync("Author/Update", content);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+       
+        //Assert
+       
+        Assert.Equal(400, (int) response.StatusCode);
+        Assert.Contains("Validation Error", responseContent);
+
+    }
 }
