@@ -44,7 +44,7 @@ public class AuthorUpdateTests : IntegrationTestsBase
         //Assert
         response.EnsureSuccessStatusCode();
         Assert.Equal(expectedAuthor, Author);
-        Dispose();
+
     }
     [Fact]
     public async Task StatusCode_400_For_Non_Existent_Author()
@@ -58,24 +58,12 @@ public class AuthorUpdateTests : IntegrationTestsBase
         //Act
         var response = await Client.PutAsync("Author/Update", content);
 
-    [Fact]
-    public async Task Success_StatusCode_For_Updated_Autor()
-    {
-        //Arrange
-        var authorUpdate = new AuthorUpdate(Author.Id, "Test", "Test2");
-        var authorUpdateJson = JsonConvert.SerializeObject(authorUpdate);
-        var content = new StringContent(authorUpdateJson, Encoding.UTF8, "application/json");
-        var expectedAuthor = Mapper.Map<Author>(authorUpdate);
-
-        //Act
-        var response = await Client.PutAsync("Author/Update", content);
-
-        //Get Author from DB
-        await DbContext.Entry(Author).ReloadAsync();
-
+        var responseContent = await response.Content.ReadAsStringAsync();
+       
         //Assert
-        response.EnsureSuccessStatusCode();
-        Assert.Equal(expectedAuthor, Author);
+       
+        Assert.Equal(400, (int) response.StatusCode);
+        Assert.Contains("Author not found", responseContent);
 
     }
 }
