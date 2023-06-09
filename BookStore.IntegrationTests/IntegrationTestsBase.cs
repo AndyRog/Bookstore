@@ -32,9 +32,5 @@ public class IntegrationTestsBase : IClassFixture<WebApplicationFactory<Startup>
         DbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>() ?? throw new Exception("cpold not get Application DbContext");
 
         Mapper = new MapperConfiguration(cfg => cfg.AddMaps(typeof(DtoEntityMapperProfile))).CreateMapper();
-
-    }
-
-
-   
+    }   
 }
