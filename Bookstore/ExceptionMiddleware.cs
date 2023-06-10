@@ -90,7 +90,7 @@ public class ExceptionMiddleware
         catch (Exception ex)
         {
 
-            context.Response.ContentType = "appplication/problem+json";
+            context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             var problemDetails = new ProblemDetails()
             {
