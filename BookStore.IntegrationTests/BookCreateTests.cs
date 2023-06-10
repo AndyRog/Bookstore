@@ -39,6 +39,7 @@ namespace BookStore.IntegrationTests
 
             var expectedBook = Mapper.Map<Book>(bookCreate);
 
+            //var response = await Client.PostAsync("/book/Create", content);
           
           
             //Act
@@ -116,8 +117,11 @@ namespace BookStore.IntegrationTests
 
             var expectedBook = Mapper.Map<Book>(bookCreate);
 
-          
-          
+        //    var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
+
+        //    Act
+        //    var response = await Client.PostAsync("/Author/Create", content);
+
             //Act
             var response = await Client.PostAsync(requestUri: "/Book/Create", content);
 
@@ -131,8 +135,9 @@ namespace BookStore.IntegrationTests
             DbContext.Authors.Remove(AuthorFixture.Author);
             await DbContext.SaveChangesAsync();
         }
-        
-        
+
+
+        //}
         public void Dispose()
         {
             DbContext.Dispose();
