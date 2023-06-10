@@ -9,7 +9,7 @@ using Xunit.Sdk;
 [assembly:CollectionBehavior(DisableTestParallelization = true)]
 namespace BookStore.IntegrationTests.Utils;
 
-public class PrioritizedOrderer : ITestCaseOrderer
+public class PriotizedOrderer : ITestCaseOrderer
 {
    
     public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases) where TTestCase : ITestCase

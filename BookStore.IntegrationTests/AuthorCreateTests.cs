@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.IntegrationTests;
 
-public class AuthorCreateTests : IntegrationTestsBase
+public class AuthorCreateTests : IntegrationTestsBase, IDisposable
 {
     public AuthorCreateTests(WebApplicationFactory<Startup> factory) : base(factory)
     {
@@ -19,7 +19,7 @@ public class AuthorCreateTests : IntegrationTestsBase
     }
 
     [Fact]
-    public async Task Success_Status_For_Created_Author()
+    public async Task Success_StatusCode_For_Created_Author()
     {
         //Arrange
         var authorCreate = new AuthorCreate("Test", "Test");
@@ -74,5 +74,10 @@ public class AuthorCreateTests : IntegrationTestsBase
 
 
 
+    }
+
+    public void Dispose()
+    {
+        DbContext.Dispose();
     }
 }
