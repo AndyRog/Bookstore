@@ -39,6 +39,7 @@ namespace BookStore.IntegrationTests
 
             var expectedBook = Mapper.Map<Book>(bookCreate);
 
+            //var response = await Client.PostAsync("/book/Create", content);
           
           
           
@@ -140,6 +141,7 @@ namespace BookStore.IntegrationTests
             Assert.Contains("Author not found", responseContent);
         }
 
+        //}
         public void Dispose()
         {
             DbContext.Dispose();
