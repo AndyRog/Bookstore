@@ -38,7 +38,9 @@ namespace Bookstore.Application.Services
             var book = Mapper.Map<Book>(bookCreate);
 
             Author? author = await AuthorRepository.GetAuthorByIdAsync(bookCreate.AuthorId);
+
             Book? existingBookForIsbn = await BookRepository.GetBookByIsbnAsync(bookCreate.ISBN);
+
             if(author == null)
             {
                 throw new AuthorNotFoundException();

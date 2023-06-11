@@ -42,7 +42,7 @@ namespace BookStore.IntegrationTests
             //var response = await Client.PostAsync("/book/Create", content);
           
             //Act
-            var response = await Client.PostAsync("/Book/Create", content);
+            var response = await Client.PostAsync(requestUri: "/Book/Create", content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
