@@ -20,6 +20,7 @@ public static class DIConfiguration
         services.AddScoped<BookUpdateService>();
         services.AddScoped<BookDeliveryService>();
         services.AddScoped<BookSaleService>();
+        services.AddScoped<BookFilterService>();
         services.AddScoped<AuthorCreateService>();
         services.AddScoped<AuthorUpdateService>();
         services.AddScoped<BookCreateValidator>();
