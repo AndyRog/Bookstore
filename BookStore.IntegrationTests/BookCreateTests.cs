@@ -39,7 +39,7 @@ namespace BookStore.IntegrationTests
 
             var expectedBook = Mapper.Map<Book>(bookCreate);
 
-            //var response = await Client.PostAsync("/book/Create", content);
+          
           
             //Act
             var response = await Client.PostAsync(requestUri: "/Book/Create", content);
