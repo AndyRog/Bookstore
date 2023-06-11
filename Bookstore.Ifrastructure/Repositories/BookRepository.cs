@@ -28,12 +28,12 @@ public class BookRepository : IBookRepository
 
     public async Task<Book?> GetBookByIdAsync(long id)
     { 
-       return await DbContext.Books.Include(book => book.Id == id).SingleOrDefaultAsync();
+       return await DbContext.Books.Include(book => book.Author).Where(book => book.Id == id).SingleOrDefaultAsync();
     }
 
     public async Task<Book?> GetBookByIsbnAsync(string isbn)
     {
-        return await DbContext.Books.Include(book => book.Isbn == isbn).SingleOrDefaultAsync();
+        return await DbContext.Books.Where(book => book.Isbn == isbn).SingleOrDefaultAsync();
     }
 
     public async Task<List<Book>> GetFilteredBooksAsync(BookFilter bookFilter)
