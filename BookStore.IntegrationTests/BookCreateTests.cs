@@ -104,10 +104,39 @@ namespace BookStore.IntegrationTests
             Assert.Contains("Isbn already Exist", responseContent);
         }
         
+        [Fact, TestPriority(3)]
+        public async Task StatusCode_400_For_ValidationError()
+        {
+            //Arrange
+            var bookCreate = new BookCreate("123456", "Test", AuthorFixture.Author.Id, 1);
+
+            var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
+
+            var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
+
+            var expectedBook = Mapper.Map<Book>(bookCreate);
+
+          
+          
+            //Act
+            var response = await Client.PostAsync(requestUri: "/Book/Create", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            //Assert
+           Assert.Equal(400, (int) response.StatusCode);
+            Assert.Contains("Validation Error", responseContent);
+
+            //Teardown
+            //var bookInDb = DbContext.Books.Where(book => book.Isbn.Equals("1234567891234")).SingleAsync();
+            DbContext.Authors.Remove(AuthorFixture.Author);
+            await DbContext.SaveChangesAsync();
+        }
+        
         
         public void Dispose()
         {
-           // DbContext.Dispose();
+            DbContext.Dispose();
         }
 
 
