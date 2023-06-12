@@ -31,7 +31,7 @@ namespace BookStore.IntegrationTests
 
 
 
-            var bookCreate = new BookCreate("1234567891234", "Test", AuthorFixture.Author.Id, 1);
+            var bookCreate = new BookCreate("1234567891235", "Test", AuthorFixture.Author.Id, 1);
 
             var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
 
@@ -117,10 +117,9 @@ namespace BookStore.IntegrationTests
 
             var expectedBook = Mapper.Map<Book>(bookCreate);
 
-        //    var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
+            var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
 
-        //    Act
-        //    var response = await Client.PostAsync("/Author/Create", content);
+            var expectedBook = Mapper.Map<Book>(bookCreate);
 
             //Act
             var response = await Client.PostAsync(requestUri: "/Book/Create", content);
@@ -136,11 +135,14 @@ namespace BookStore.IntegrationTests
             await DbContext.SaveChangesAsync();
         }
 
+            //Assert
+           Assert.Equal(400, (int) response.StatusCode);
+            Assert.Contains("Author not found", responseContent);
+        }
 
-        //}
         public void Dispose()
         {
-            DbContext.Dispose();
+           // DbContext.Dispose();
         }
 
 
