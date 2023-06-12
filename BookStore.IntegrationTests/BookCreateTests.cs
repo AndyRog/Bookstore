@@ -31,7 +31,7 @@ namespace BookStore.IntegrationTests
 
 
 
-            var bookCreate = new BookCreate("1234567891234", "Test", AuthorFixture.Author.Id, 1);
+            var bookCreate = new BookCreate("1234567891235", "Test", AuthorFixture.Author.Id, 1);
 
             var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
 
@@ -141,10 +141,9 @@ namespace BookStore.IntegrationTests
             Assert.Contains("Author not found", responseContent);
         }
 
-        //}
         public void Dispose()
         {
-            DbContext.Dispose();
+           // DbContext.Dispose();
         }
 
 
