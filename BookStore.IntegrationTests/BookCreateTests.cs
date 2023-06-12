@@ -22,7 +22,7 @@ namespace BookStore.IntegrationTests
             AuthorFixture = authorFixture;
         }
 
-        [Fact, TestPriority(1)]
+        [Fact, TestPriority(0)]
         public async Task Success_StatusCode_For_Created_Book()
         {
             //Arrange
@@ -31,7 +31,7 @@ namespace BookStore.IntegrationTests
 
 
 
-            var bookCreate = new BookCreate("1234567891235", "Test", AuthorFixture.Author.Id, 1);
+            var bookCreate = new BookCreate("1234567891234", "Test", AuthorFixture.Author.Id, 1);
 
             var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
 
@@ -54,14 +54,37 @@ namespace BookStore.IntegrationTests
             response.EnsureSuccessStatusCode();
             Assert.Equal(expectedBook, bookInDb);
         }
-        
-        
-        
-        [Fact, TestPriority(0)]
+
+        [Fact, TestPriority(1)]
         public async Task StatusCode_400_For_Non_Existent_Author()
         {
             //Arrange
-            var bookCreate = new BookCreate("1234567891235", "Test", AuthorFixture.Author.Id, 1);
+            var bookCreate = new BookCreate("1234567891235", "Test", int.MaxValue, 1);
+
+            var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
+
+            var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
+
+            var expectedBook = Mapper.Map<Book>(bookCreate);
+
+
+
+            //Act
+            var response = await Client.PostAsync(requestUri: "/Book/Create", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            //Assert
+            Assert.Equal(400, (int)response.StatusCode);
+            Assert.Contains("Author not found", responseContent);
+        }
+
+
+        [Fact, TestPriority(2)]
+        public async Task StatusCode_400_For_Dublicate_ISBN()
+        {
+            //Arrange
+            var bookCreate = new BookCreate("1234567891234", "Test", AuthorFixture.Author.Id, 1);
 
             var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
 
@@ -78,41 +101,16 @@ namespace BookStore.IntegrationTests
 
             //Assert
            Assert.Equal(400, (int) response.StatusCode);
-            Assert.Contains("Author not found", responseContent);
+            Assert.Contains("Isbn already Exist", responseContent);
         }
-
+        
+        
         public void Dispose()
         {
            // DbContext.Dispose();
         }
 
 
-        //    [Fact]
-        //    public async Task StatusCode_400_For_Non_Existent_Author()
-        //    {
-        //        //Arrange
-        //        var authorCreate = new AuthorCreate("Test", string.Empty);
-
-        //        var bookCreateJson = JsonConvert.SerializeObject(authorCreate);
-
-        //        var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
-
-        //        Act
-        //        var response = await Client.PostAsync("/Author/Create", content);
-
-        //        var responseContent = await response.Content.ReadAsStringAsync();
-
-        //        Assert
-        //        Assert.Equal(400, (int)response.StatusCode);
-
-        //        Assert.Contains("Validation Error", responseContent);
-
-
-
-        //        //}
-        //        public void Dispose()
-        //    {
-        //        DbContext.Dispose();
-        //    }
+      
     }
 }
