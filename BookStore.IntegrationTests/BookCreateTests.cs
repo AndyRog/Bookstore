@@ -128,7 +128,6 @@ namespace BookStore.IntegrationTests
             Assert.Contains("Validation Error", responseContent);
 
             //Teardown
-            //var bookInDb = DbContext.Books.Where(book => book.Isbn.Equals("1234567891234")).SingleAsync();
             DbContext.Authors.Remove(AuthorFixture.Author);
             await DbContext.SaveChangesAsync();
         }
