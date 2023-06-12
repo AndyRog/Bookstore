@@ -143,7 +143,7 @@ namespace BookStore.IntegrationTests
 
         public void Dispose()
         {
-           // DbContext.Dispose();
+            DbContext.Dispose();
         }
 
 
