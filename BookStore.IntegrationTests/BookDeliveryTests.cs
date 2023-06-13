@@ -62,7 +62,7 @@ namespace BookStore.IntegrationTests
             response.EnsureSuccessStatusCode();
             Assert.Equal(1, Book.Quantity);
         }
-        
+
         [Fact]
         public async Task StatusCode_400_For_ValidationError()
         {
@@ -73,6 +73,7 @@ namespace BookStore.IntegrationTests
 
             var content = new StringContent(bookDeliveryJson, Encoding.UTF8, "application/json");
 
+            var expectedBook = Mapper.Map<Book>(bookUpdate);
 
             //Act
             var response = await Client.PostAsync(requestUri: "/Book/Delivery", content);
@@ -94,6 +95,7 @@ namespace BookStore.IntegrationTests
 
             var content = new StringContent(bookDeliveryJson, Encoding.UTF8, "application/json");
 
+            var expectedBook = Mapper.Map<Book>(bookUpdate);
 
             //Act
             var response = await Client.PostAsync(requestUri: "/Book/Delivery", content);
@@ -101,7 +103,7 @@ namespace BookStore.IntegrationTests
             var responseContent = await response.Content.ReadAsStringAsync();
 
             //Assert
-            Assert.Equal(400, (int)response.StatusCode);
+           Assert.Equal(400, (int)response.StatusCode);
             Assert.Contains("Book not found", responseContent);
         }
 
