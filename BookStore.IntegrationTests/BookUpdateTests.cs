@@ -85,6 +85,28 @@ namespace BookStore.IntegrationTests
             Assert.Equal(400, (int)response.StatusCode);
             Assert.Contains("Author not found", responseContent);
         }
+        
+        [Fact]
+        public async Task StatusCode_400_For_Non_Existent_Book()
+        {
+            //Arrange
+            var bookUpdate = new BookUpdate(int.MaxValue, Book.Isbn, "Title_1", Author.Id);
+
+            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
+
+            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
+
+            var expectedBook = Mapper.Map<Book>(bookUpdate);
+
+            //Act
+            var response = await Client.PutAsync(requestUri: "/Book/Update", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            //Assert
+            Assert.Equal(400, (int)response.StatusCode);
+            Assert.Contains("Book not found", responseContent);
+        }
 
         [Fact]
         public async Task StatusCode_400_For_Dublicate_ISBN()
