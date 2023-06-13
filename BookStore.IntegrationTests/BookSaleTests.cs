@@ -88,15 +88,15 @@ namespace BookStore.IntegrationTests
         public async Task StatusCode_400_For_Non_Existent_Book()
         {
             //Arrange
-            var bookDelivery = new BookDelivery(int.MaxValue, 1);
+            var bookSale = new BookSale(int.MaxValue, 1);
 
-            var bookDeliveryJson = JsonConvert.SerializeObject(bookDelivery);
+            var bookSaleJson = JsonConvert.SerializeObject(bookSale);
 
-            var content = new StringContent(bookDeliveryJson, Encoding.UTF8, "application/json");
+            var content = new StringContent(bookSaleJson, Encoding.UTF8, "application/json");
 
 
             //Act
-            var response = await Client.PostAsync(requestUri: "/Book/Delivery", content);
+            var response = await Client.PostAsync(requestUri: "/Book/Sale", content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
