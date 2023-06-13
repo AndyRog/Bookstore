@@ -54,6 +54,7 @@ namespace BookStore.IntegrationTests
 
         [Fact]
         public async Task Filterd_Result_For_SerchTerm_Is_Correct()
+
         {
             //Arrange
             var bookFilter = new BookFilter("Test");
@@ -80,7 +81,10 @@ namespace BookStore.IntegrationTests
             response.EnsureSuccessStatusCode();
             Assert.Single(responseBooks!);
             Assert.Equal(Books[0], responseBooks![0]);
-        }[Fact]
+        }
+        
+        
+        [Fact]
         public async Task All_Books_Returned_For_Emty_SerchTerm()
         {
             //Arrange
@@ -110,6 +114,34 @@ namespace BookStore.IntegrationTests
             Assert.Equal(Books[0], responseBooks![0]);
 
             Books.ForEach(bookInDb => Assert.Contains(responseBooks, rb => rb.Equals(bookInDb)));
+        }
+        [Fact]
+        public async Task Empty_List_Returned_For_Unmatching_SerchTerm()
+        {
+            //Arrange
+            var bookFilter = new BookFilter("testTesttest");
+
+            var bookFilterJson = JsonConvert.SerializeObject(bookFilter);
+
+            var content = new StringContent(bookFilterJson, Encoding.UTF8, "application/json");
+
+            var request = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(Client.BaseAddress + "Book/Filter"),
+                Content = content
+            };
+
+            //Act
+            var response = await Client.SendAsync(request);
+
+           var responseContent = await response.Content.ReadAsStringAsync();
+
+            var responseBooks = JsonConvert.DeserializeObject<List<Book>>(responseContent);
+
+            //Assert
+            response.EnsureSuccessStatusCode();
+            Assert.Empty(responseBooks!);
         }
 
      
