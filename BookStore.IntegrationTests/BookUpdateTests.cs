@@ -64,29 +64,27 @@ namespace BookStore.IntegrationTests
             Assert.Equal(expectedBook, Book);
         }
 
-        //[Fact]
-        //public async Task StatusCode_400_For_Non_Existent_Author()
-        //{
-        //    //Arrange
-        //    var bookCreate = new BookCreate("1234567891235", "Test", int.MaxValue, 1);
+        [Fact]
+        public async Task StatusCode_400_For_Non_Existent_Author()
+        {
+            //Arrange
+            var bookUpdate = new BookUpdate(Book.Id, Book.Isbn, "Title_1", int.MaxValue);
 
-        //    var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
+            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
 
-        //    var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
+            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
 
-        //    var expectedBook = Mapper.Map<Book>(bookCreate);
+            var expectedBook = Mapper.Map<Book>(bookUpdate);
 
+            //Act
+            var response = await Client.PutAsync(requestUri: "/Book/Update", content);
 
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-        //    //Act
-        //    var response = await Client.PostAsync(requestUri: "/Book/Create", content);
-
-        //    var responseContent = await response.Content.ReadAsStringAsync();
-
-        //    //Assert
-        //    Assert.Equal(400, (int)response.StatusCode);
-        //    Assert.Contains("Author not found", responseContent);
-        //}
+            //Assert
+            Assert.Equal(400, (int)response.StatusCode);
+            Assert.Contains("Author not found", responseContent);
+        }
 
         //[Fact]
         //public async Task StatusCode_400_For_ValidationError()
