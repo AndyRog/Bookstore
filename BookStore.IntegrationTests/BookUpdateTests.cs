@@ -146,6 +146,7 @@ namespace BookStore.IntegrationTests
             await DbContext.SaveChangesAsync();
         }
 
+        //    var expectedBook = Mapper.Map<Book>(bookCreate);
 
         [Fact]
         public async Task StatusCode_400_For_ValidationError()
