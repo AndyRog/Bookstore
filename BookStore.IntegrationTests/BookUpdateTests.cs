@@ -125,6 +125,28 @@ namespace BookStore.IntegrationTests
         }
 
 
+        [Fact]
+        public async Task StatusCode_400_For_ValidationError()
+        {
+            //Arrange
+            var bookUpdate = new BookUpdate(Book.Id, "123", "Title_1", Author.Id);
+
+            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
+
+            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
+
+            var expectedBook = Mapper.Map<Book>(bookUpdate);
+
+            //Act
+            var response = await Client.PutAsync(requestUri: "/Book/Update", content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            //Assert
+            Assert.Equal(400, (int)response.StatusCode);
+            Assert.Contains("Validation Error", responseContent);
+        }
+
         public void Dispose()
         {
             DbContext.Authors.Remove(Author);
