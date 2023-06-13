@@ -86,33 +86,43 @@ namespace BookStore.IntegrationTests
             Assert.Contains("Author not found", responseContent);
         }
 
-        //[Fact]
-        //public async Task StatusCode_400_For_ValidationError()
-        //{
-        //    Arrange
-        //    var bookCreate = new BookCreate("123456", "Test", AuthorFixture.Author.Id, 1);
+        [Fact]
+        public async Task StatusCode_400_For_Dublicate_ISBN()
+        {
+            //Arrange
 
-        //    var bookCreateJson = JsonConvert.SerializeObject(bookCreate);
+            var book = new Book() 
+            { 
+                AuthorId = Author.Id,
+                Title = "Title_2",
+                Isbn ="1234567891239",
+                Quantity = 0
+            };
 
-        //    var content = new StringContent(bookCreateJson, Encoding.UTF8, "application/json");
+            DbContext.Books.Add(book);
+            await DbContext.SaveChangesAsync();
 
-        //    var expectedBook = Mapper.Map<Book>(bookCreate);
+            var bookUpdate = new BookUpdate(Book.Id, book.Isbn, "Title_1", Author.Id);
 
+            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
 
+            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
 
-        //    Act
-        //    var response = await Client.PostAsync(requestUri: "/Book/Create", content);
+            var expectedBook = Mapper.Map<Book>(bookUpdate);
 
-        //    var responseContent = await response.Content.ReadAsStringAsync();
+            //Act
+            var response = await Client.PutAsync(requestUri: "/Book/Update", content);
 
-        //    Assert
-        //   Assert.Equal(400, (int)response.StatusCode);
-        //    Assert.Contains("Validation Error", responseContent);
+            var responseContent = await response.Content.ReadAsStringAsync();
 
-        //    Teardown
-        //    DbContext.Authors.Remove(AuthorFixture.Author);
-        //    await DbContext.SaveChangesAsync();
-        //}
+            //Assert
+           Assert.Equal(400, (int)response.StatusCode);
+            Assert.Contains("Isbn already Exists", responseContent);
+
+           // Teardown
+            DbContext.Books.Remove(book);
+            await DbContext.SaveChangesAsync();
+        }
 
 
         public void Dispose()
