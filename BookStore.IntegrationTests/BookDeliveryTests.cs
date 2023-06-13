@@ -62,18 +62,17 @@ namespace BookStore.IntegrationTests
             response.EnsureSuccessStatusCode();
             Assert.Equal(1, Book.Quantity);
         }
-
+        
         [Fact]
-        public async Task StatusCode_400_For_Non_Existent_Author()
+        public async Task StatusCode_400_For_ValidationError()
         {
             //Arrange
-            var bookUpdate = new BookUpdate(Book.Id, Book.Isbn, "Title_1", int.MaxValue);
+            var bookDelivery = new BookDelivery(Book.Id, -1);
 
-            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
+            var bookDeliveryJson = JsonConvert.SerializeObject(bookDelivery);
 
-            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
+            var content = new StringContent(bookDeliveryJson, Encoding.UTF8, "application/json");
 
-            var expectedBook = Mapper.Map<Book>(bookUpdate);
 
             //Act
             var response = await Client.PostAsync(requestUri: "/Book/Delivery", content);
@@ -82,68 +81,28 @@ namespace BookStore.IntegrationTests
 
             //Assert
             Assert.Equal(400, (int)response.StatusCode);
-            Assert.Contains("Author not found", responseContent);
+            Assert.Contains("Validation Error", responseContent);
         }
 
         [Fact]
-        public async Task StatusCode_400_For_Dublicate_ISBN()
+        public async Task StatusCode_400_For_Non_Existent_Book()
         {
             //Arrange
+            var bookDelivery = new BookDelivery(int.MaxValue, 1);
 
-            var book = new Book() 
-            { 
-                AuthorId = Author.Id,
-                Title = "Title_2",
-                Isbn ="1234567891239",
-                Quantity = 0
-            };
+            var bookDeliveryJson = JsonConvert.SerializeObject(bookDelivery);
 
-            DbContext.Books.Add(book);
-            await DbContext.SaveChangesAsync();
+            var content = new StringContent(bookDeliveryJson, Encoding.UTF8, "application/json");
 
-            var bookUpdate = new BookUpdate(Book.Id, book.Isbn, "Title_1", Author.Id);
-
-            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
-
-            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
-
-            var expectedBook = Mapper.Map<Book>(bookUpdate);
 
             //Act
-            var response = await Client.PutAsync(requestUri: "/Book/Update", content);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            //Assert
-           Assert.Equal(400, (int)response.StatusCode);
-            Assert.Contains("Isbn already Exists", responseContent);
-
-           // Teardown
-            DbContext.Books.Remove(book);
-            await DbContext.SaveChangesAsync();
-        }
-
-
-        [Fact]
-        public async Task StatusCode_400_For_ValidationError()
-        {
-            //Arrange
-            var bookUpdate = new BookUpdate(Book.Id, "123", "Title_1", Author.Id);
-
-            var bookUpdateJson = JsonConvert.SerializeObject(bookUpdate);
-
-            var content = new StringContent(bookUpdateJson, Encoding.UTF8, "application/json");
-
-            var expectedBook = Mapper.Map<Book>(bookUpdate);
-
-            //Act
-            var response = await Client.PutAsync(requestUri: "/Book/Update", content);
+            var response = await Client.PostAsync(requestUri: "/Book/Delivery", content);
 
             var responseContent = await response.Content.ReadAsStringAsync();
 
             //Assert
             Assert.Equal(400, (int)response.StatusCode);
-            Assert.Contains("Validation Error", responseContent);
+            Assert.Contains("Book not found", responseContent);
         }
 
         public void Dispose()
