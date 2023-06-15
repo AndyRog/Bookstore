@@ -7,6 +7,7 @@ using Bookstore.Domain.Entities;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +50,40 @@ namespace Bookstore.Application.Unittests.Services
             applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogCreateAuthorAsyncCalled(authorCreate), Times.Once);
 
             applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogAuthorCreated(1), Times.Once);
+
+
+        }
+        
+        
+        [Fact]
+        public async Task VlidationException_For_Invalid_AuthorCreate()
+        {
+            //Arrange
+            var authorCreate = new AuthorCreate(string.Empty, "test");
+
+            var authorRepositoryMock = new Mock<IAuthorRepository>();
+            
+            var applicationLoggerMock = new Mock<IApplicationLogger<AuthorCreateService>>();    
+
+            var authorCreateService = new AuthorCreateService(authorRepositoryMock.Object, Mapper, Validator, applicationLoggerMock.Object);
+
+            //Act
+            try
+            {
+                await authorCreateService.CreateAuthorAsync(authorCreate);
+                throw new Exception("Supposed to throw ValidationException");
+            }
+            catch (FluentValidation.ValidationException ex)
+            {
+                //Assert
+                applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogCreateAuthorAsyncCalled(authorCreate), Times.Once);
+
+                applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogValidationErrorInCreateAuthor(ex,authorCreate), Times.Once);
+            }
+           
+
+
+            
 
 
         }
