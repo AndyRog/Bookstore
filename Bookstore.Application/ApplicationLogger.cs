@@ -36,7 +36,7 @@ namespace Bookstore.Application
 
         }
 
-        public void AuthorNotFound(long authorId)
+        public void LogAuthorNotFound(long authorId)
         {
            Logger.LogError($"Author not found in UpdateAuthor. {authorId}");
         }

@@ -11,7 +11,7 @@ namespace Bookstore.Application.Contracts
 {
     public interface IApplicationLogger<T>
     {
-        void AuthorNotFound(long authorId);
+        void LogAuthorNotFound(long authorId);
         void LogAuthorCreated(long id);
         void LogAuthorUpdated(Author author);
         void LogCreateAuthorAsyncCalled(AuthorCreate authorCreate);

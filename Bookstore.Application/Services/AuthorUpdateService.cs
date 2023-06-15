@@ -42,9 +42,10 @@ namespace Bookstore.Application.Services
             }
            
             Author? author = await AuthorRepository.GetAuthorByIdAsync(authorUpdate.AuthorId);
+
             if (author == null)
             {
-                Logger.AuthorNotFound(authorUpdate.AuthorId);
+                Logger.LogAuthorNotFound(authorUpdate.AuthorId);
                 throw new AuthorNotFoundException();
             }
 

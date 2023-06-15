@@ -55,22 +55,34 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public void AuthorNotFoundException_For_Non_Existent_Id()
+        public async Task AuthorNotFoundException_For_Non_Existent_IdAsync()
         {
             //Arrange
             var authorUpdate = new AuthorUpdate(1, "Test", "Test");
             var authorRepositoryMock = new Mock<IAuthorRepository>();
-            authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).Returns<Author?>(null);
-
+           
             var applicationLoggerMock = new Mock<IApplicationLogger<AuthorUpdateService>>();
 
             var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator, applicationLoggerMock.Object);
 
-            //Actio
-            Func<Task> func = async () => await authorUpdateService.UpdateAuthorAsync(authorUpdate);
 
-            //Assert
-            Assert.ThrowsAsync<AuthorNotFoundException>(func);
+            //Act
+            try
+            {
+                await authorUpdateService.UpdateAuthorAsync(authorUpdate);
+                throw new Exception("Supposed to trow AuthorNotFoundException");
+            }
+            catch (AuthorNotFoundException)
+            {
+
+                //Assert
+               
+                applicationLoggerMock.Verify(mock => mock.LogUpdateAuthorAsyncCalled(authorUpdate), Times.Once);
+                applicationLoggerMock.Verify(mock => mock.LogAuthorNotFound(authorUpdate.AuthorId), Times.Once);
+                
+            }
+            
+
         }
     }
 
