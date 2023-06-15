@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using FluentValidation;
 
 namespace Bookstore.Application.Unittests.Services
 {
@@ -79,6 +80,37 @@ namespace Bookstore.Application.Unittests.Services
                
                 applicationLoggerMock.Verify(mock => mock.LogUpdateAuthorAsyncCalled(authorUpdate), Times.Once);
                 applicationLoggerMock.Verify(mock => mock.LogAuthorNotFound(authorUpdate.AuthorId), Times.Once);
+                
+            }
+            
+
+        }
+        
+        
+        [Fact]
+        public async Task ValidationException_For_Invalid_AuthorUpdate()
+        {
+            //Arrange
+            var authorUpdate = new AuthorUpdate(1, string.Empty, "Test");
+            var authorRepositoryMock = new Mock<IAuthorRepository>();
+           
+            var applicationLoggerMock = new Mock<IApplicationLogger<AuthorUpdateService>>();
+
+            var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator, applicationLoggerMock.Object);
+
+
+            //Act
+            try
+            {
+                await authorUpdateService.UpdateAuthorAsync(authorUpdate);
+                throw new Exception("Supposed to trow ValidationException");
+            }
+            catch (FluentValidation.ValidationException ex)
+            {
+
+                //Assert
+                applicationLoggerMock.Verify(mock => mock.LogUpdateAuthorAsyncCalled(authorUpdate), Times.Once);
+                applicationLoggerMock.Verify(mock => mock.LogValidationErrorInUpdateAuthor(ex, authorUpdate), Times.Once);
                 
             }
             
