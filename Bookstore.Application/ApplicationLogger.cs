@@ -1,5 +1,6 @@
 ﻿using Bookstore.Application.Contracts;
 using Bookstore.Application.Dtos;
+using Bookstore.Domain.Entities;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,6 +34,26 @@ namespace Bookstore.Application
         {
             Logger.LogError(ex, "Validation Error in CreateAuthor. {authorCreate}", authorCreate);
 
+        }
+
+        public void AuthorNotFound(long authorId)
+        {
+           Logger.LogError($"Author not found in UpdateAuthor. {authorId}");
+        }
+
+        public void LogAuthorUpdated(Author author)
+        {
+            Logger.LogInformation($"Author updated: {author}");
+        }
+
+        public void LogUpdateAuthorAsyncCalled(AuthorUpdate authorUpdate)
+        {
+            Logger.LogInformation("AuthorUpdate called. {authorUpdate}", authorUpdate);
+        }
+
+        public void LogValidationErrorInUpdateAauthor(ValidationException ex, AuthorUpdate authorUpdate)
+        {
+            Logger.LogError(ex, "Validation Error in UpdateAuthor. {authorUpdate}", authorUpdate);
         }
     }
 }
