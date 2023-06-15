@@ -33,8 +33,11 @@ namespace Bookstore.Application.Unittests.Services
             var authorCreate = new AuthorCreate("test", "test");
 
             var authorRepositoryMock = new Mock<IAuthorRepository>();
+            authorRepositoryMock.Setup(authorRepositoryMock => authorRepositoryMock.AddAuthorAsync(It.IsAny<Author>())).ReturnsAsync(1);
 
-            var authorCreateService = new AuthorCreateService(authorRepositoryMock.Object, Mapper, Validator);
+            var applicationLoggerMock = new Mock<IApplicationLogger<AuthorCreateService>>();    
+
+            var authorCreateService = new AuthorCreateService(authorRepositoryMock.Object, Mapper, Validator, applicationLoggerMock.Object);
 
             //Act
             await authorCreateService.CreateAuthorAsync(authorCreate);
@@ -42,7 +45,11 @@ namespace Bookstore.Application.Unittests.Services
             //Assert
 
             authorRepositoryMock.Verify(authorRepositoryMock => authorRepositoryMock.AddAuthorAsync(It.IsAny<Author>()), Times.Once);
-           
+
+            applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogCreateAuthorAsyncCalled(authorCreate), Times.Once);
+
+            applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogAuthorCreated(1), Times.Once);
+
 
         }
 
