@@ -17,6 +17,6 @@ namespace Bookstore.Application.Contracts
         void LogCreateAuthorAsyncCalled(AuthorCreate authorCreate);
         void LogUpdateAuthorAsyncCalled(AuthorUpdate authorUpdate);
         void LogValidationErrorInCreateAuthor(ValidationException ex, AuthorCreate authorCreate);
-        void LogValidationErrorInUpdateAauthor(ValidationException ex, AuthorUpdate authorUpdate);
+        void LogValidationErrorInUpdateAuthor(ValidationException ex, AuthorUpdate authorUpdate);
     }
 }

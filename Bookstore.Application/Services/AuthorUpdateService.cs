@@ -37,7 +37,7 @@ namespace Bookstore.Application.Services
             }
             catch (ValidationException ex)
             {
-                Logger.LogValidationErrorInUpdateAauthor(ex, authorUpdate);
+                Logger.LogValidationErrorInUpdateAuthor(ex, authorUpdate);
                 throw;
             }
            

@@ -51,7 +51,7 @@ namespace Bookstore.Application
             Logger.LogInformation("AuthorUpdate called. {authorUpdate}", authorUpdate);
         }
 
-        public void LogValidationErrorInUpdateAauthor(ValidationException ex, AuthorUpdate authorUpdate)
+        public void LogValidationErrorInUpdateAuthor(ValidationException ex, AuthorUpdate authorUpdate)
         {
             Logger.LogError(ex, "Validation Error in UpdateAuthor. {authorUpdate}", authorUpdate);
         }
