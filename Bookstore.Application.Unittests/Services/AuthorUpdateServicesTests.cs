@@ -32,16 +32,25 @@ namespace Bookstore.Application.Unittests.Services
         public async Task Author_Updated()
         {
             //Arrange
+            var author = new Author();
+
             var authorUpdate = new AuthorUpdate(1,"Test", "Test");
             var authorRepositoryMock = new Mock<IAuthorRepository>();
-            authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(new Author());
-            var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator);
+            authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(author);
+
+            var applicationLoggerMock = new Mock<IApplicationLogger<AuthorUpdateService>>();
+
+
+            var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator, applicationLoggerMock.Object);
 
             //Act
             await authorUpdateService.UpdateAuthorAsync(authorUpdate);
+            applicationLoggerMock.Verify(mock => mock.LogUpdateAuthorAsyncCalled(authorUpdate),Times.Once);
 
             //Assert
             authorRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once);
+            applicationLoggerMock.Verify(mock => mock.LogUpdateAuthorAsyncCalled(authorUpdate), Times.Once);
+            applicationLoggerMock.Verify(mock => mock.LogAuthorUpdated(author), Times.Once);
 
         }
 
@@ -52,7 +61,10 @@ namespace Bookstore.Application.Unittests.Services
             var authorUpdate = new AuthorUpdate(1, "Test", "Test");
             var authorRepositoryMock = new Mock<IAuthorRepository>();
             authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).Returns<Author?>(null);
-            var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator);
+
+            var applicationLoggerMock = new Mock<IApplicationLogger<AuthorUpdateService>>();
+
+            var authorUpdateService = new AuthorUpdateService(authorRepositoryMock.Object, Mapper, Validator, applicationLoggerMock.Object);
 
             //Actio
             Func<Task> func = async () => await authorUpdateService.UpdateAuthorAsync(authorUpdate);
