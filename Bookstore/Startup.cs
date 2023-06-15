@@ -22,6 +22,7 @@ public class Startup
         DIConfiguration.RegisterServices(services);
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<IAuthorRepository, AuthorRepository>();
+        services.AddScoped(typeof(IApplicationLogger<>), typeof(ApplicationLogger<>));
         services.AddDbContext<ApplicationDbContext>();
         services.AddIdentity<IdentityUser, IdentityRole>(options =>
          {
