@@ -56,7 +56,7 @@ namespace Bookstore.Application.Unittests.Services
         
         
         [Fact]
-        public async Task VlidationException_For_Invalid_AuthorCreate()
+        public async Task ValidationException_For_Invalid_AuthorCreate()
         {
             //Arrange
             var authorCreate = new AuthorCreate(string.Empty, "test");
