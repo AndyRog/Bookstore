@@ -19,7 +19,7 @@ public class ExceptionMiddleware
         {
             await Next(context);
         }
-        catch (IsbnDublicateException)
+        catch (IsbnDuplicateException)
         {
             context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = StatusCodes.Status400BadRequest;

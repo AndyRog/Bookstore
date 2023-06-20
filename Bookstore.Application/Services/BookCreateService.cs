@@ -61,7 +61,7 @@ namespace Bookstore.Application.Services
             if(existingBookForIsbn != null) 
             {
                 Logger.LogIsbnDuplicate(bookCreate.ISBN);
-                throw new IsbnDublicateException();
+                throw new IsbnDuplicateException();
             }
 
             book.Author = author;

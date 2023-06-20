@@ -98,7 +98,7 @@ public class BoookCreateServiceTests
         Func<Task> func = async () => await bookCreateService.CreateBookAsync(bookCreate);
 
         //Assert
-        Assert.ThrowsAsync<IsbnDublicateException>(func);
+        Assert.ThrowsAsync<IsbnDuplicateException>(func);
         applicationLoggerMock.Verify(mock => mock.LogCreateBookAsyncCalled(bookCreate));
         applicationLoggerMock.Verify(mock => mock.LogIsbnDuplicate(It.IsAny<string>()), Times.Once);
 
