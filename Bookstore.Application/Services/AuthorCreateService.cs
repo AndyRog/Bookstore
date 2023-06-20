@@ -35,7 +35,7 @@ public class AuthorCreateService
         }
         catch (ValidationException ex)
         {
-            Logger.LogValidationErrorInCreateAuthor(ex, authorCreate);
+            Logger.LogValidationErrorForCreateAuthor(ex, authorCreate);
             throw;
         }
         var author = Mapper.Map<Author>(authorCreate);

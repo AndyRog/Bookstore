@@ -78,7 +78,7 @@ namespace Bookstore.Application.Unittests.Services
                 //Assert
                 applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogCreateAuthorAsyncCalled(authorCreate), Times.Once);
 
-                applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogValidationErrorInCreateAuthor(ex,authorCreate), Times.Once);
+                applicationLoggerMock.Verify(applicationLoggerMock => applicationLoggerMock.LogValidationErrorForCreateAuthor(ex,authorCreate), Times.Once);
             }
            
 

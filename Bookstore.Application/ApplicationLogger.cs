@@ -30,7 +30,7 @@ namespace Bookstore.Application
             Logger.LogInformation($"AuthorCreated: {id}");
         }
 
-        public void LogValidationErrorInCreateAuthor(ValidationException ex, AuthorCreate authorCreate)
+        public void LogValidationErrorForCreateAuthor(ValidationException ex, AuthorCreate authorCreate)
         {
             Logger.LogError(ex, "Validation Error in CreateAuthor. {authorCreate}", authorCreate);
 
@@ -51,7 +51,7 @@ namespace Bookstore.Application
             Logger.LogInformation("AuthorUpdate called. {authorUpdate}", authorUpdate);
         }
 
-        public void LogValidationErrorInUpdateAuthor(ValidationException ex, AuthorUpdate authorUpdate)
+        public void LogValidationErrorForAuthorUpdate(ValidationException ex, AuthorUpdate authorUpdate)
         {
             Logger.LogError(ex, "Validation Error in UpdateAuthor. {authorUpdate}", authorUpdate);
         }

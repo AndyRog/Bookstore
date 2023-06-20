@@ -110,7 +110,7 @@ namespace Bookstore.Application.Unittests.Services
 
                 //Assert
                 applicationLoggerMock.Verify(mock => mock.LogUpdateAuthorAsyncCalled(authorUpdate), Times.Once);
-                applicationLoggerMock.Verify(mock => mock.LogValidationErrorInUpdateAuthor(ex, authorUpdate), Times.Once);
+                applicationLoggerMock.Verify(mock => mock.LogValidationErrorForAuthorUpdate(ex, authorUpdate), Times.Once);
                 
             }
             
