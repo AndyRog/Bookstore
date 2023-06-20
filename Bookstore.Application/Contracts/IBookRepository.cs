@@ -7,7 +7,7 @@ public interface IBookRepository
 {
     Task<long> AddBookAsync(Book book);
     Task<Book?> GetBookByIdAsync(long bookId);
-    Task<Book?> GetBookByIsbnAsync(string iSBN);
+    Task<Book?> GetBookByIsbnAsync(string ISBN);
     Task<List<Book>> GetFilteredBooksAsync(BookFilter bookFilter);
     Task UpdateAsync();
 }
