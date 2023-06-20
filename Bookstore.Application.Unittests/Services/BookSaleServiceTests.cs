@@ -31,41 +31,94 @@ namespace Bookstore.Application.Unittests.Services
         }
 
         [Fact]
-        public async Task Quantaty_Decreased() //Menge verringert
+        public async Task Quantity_Decreased()
         {
-            //Arrenge
+            //Arrange
             var bookSale = new BookSale(1, 1);
-            
-            var book = new Book() { Quantity = 1, Author = new Author() };
-
             var bookRepositoryMock = new Mock<IBookRepository>();
-            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(book);
+            var book = new Book() { Quantity = 1, Author = new Author() };
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1))
+                .ReturnsAsync(book);
+            var loggerMock = new Mock<IApplicationLogger<BookSaleService>>();
+            var bookSaleService = new BookSaleService(bookRepositoryMock.Object,
+                BookSaleValidator, BookValidator, loggerMock.Object);
 
-            var bookSaleService = new BookSaleService( bookRepositoryMock.Object, BookSaleValidator, BookValidator);
             //Act
             await bookSaleService.ProcessBookSaleAsync(bookSale);
 
             //Assert
             Assert.Equal(0, book.Quantity);
-
-            bookRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once());
+            bookRepositoryMock.Verify(mock => mock.UpdateAsync(), Times.Once);
+            loggerMock.Verify(mock => mock.LogProcessBookSaleAsyncCalled(bookSale));
+            loggerMock.Verify(mock => mock.LogBookSaleProcessed(It.IsAny<long>(), bookSale.Quantity));
         }
 
         [Fact]
         public void BookNotFoundException_For_Non_Existent_BookId()
         {
-            //Arrenge
+            //Arrange
             var bookSale = new BookSale(1, 1);
-
             var bookRepositoryMock = new Mock<IBookRepository>();
-            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).Returns<Book?>(null);
-            var bookSaleService = new BookSaleService(bookRepositoryMock.Object, BookSaleValidator, BookValidator);
+            var loggerMock = new Mock<IApplicationLogger<BookSaleService>>();
+            var bookSaleService = new BookSaleService(bookRepositoryMock.Object,
+                BookSaleValidator, BookValidator, loggerMock.Object);
+
             //Act
-            Func<Task> func = async () => await bookSaleService.ProcessBookSaleAsync(bookSale);
+            Func<Task> func = async () => await
+            bookSaleService.ProcessBookSaleAsync(bookSale);
 
             //Assert
-           Assert.ThrowsAsync<BookNotFoundException>(func);
+            Assert.ThrowsAsync<BookNotFoundException>(func);
+            loggerMock.Verify(mock => mock.LogProcessBookSaleAsyncCalled(bookSale));
+            loggerMock.Verify(mock => mock.LogBookNotFound(bookSale.BookId));
+        }
 
+        [Fact]
+        public void ValidationError_For_Invalid_BookSale()
+        {
+            //Arrange
+            var bookSale = new BookSale(1, -1);
+            var bookRepositoryMock = new Mock<IBookRepository>();
+            var book = new Book() { Quantity = 1, Author = new Author() };
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1))
+                .ReturnsAsync(book);
+            var loggerMock = new Mock<IApplicationLogger<BookSaleService>>();
+            var bookSaleService = new BookSaleService(bookRepositoryMock.Object,
+                BookSaleValidator, BookValidator, loggerMock.Object);
+
+            //Act
+            Func<Task> func = async () => await
+            bookSaleService.ProcessBookSaleAsync(bookSale);
+
+            //Assert
+            Assert.ThrowsAsync<FluentValidation.ValidationException>(func);
+            loggerMock.Verify(mock => mock.LogProcessBookSaleAsyncCalled(bookSale));
+            loggerMock.Verify(mock => mock.LogValidationErrorForBookSale(It.IsAny<FluentValidation.ValidationException>(),
+                bookSale));
+        }
+
+        [Fact]
+        public void ValidationError_For_Invalid_Book()
+        {
+            //Arrange
+            var bookSale = new BookSale(1, 1);
+            var bookRepositoryMock = new Mock<IBookRepository>();
+            var book = new Book() { Quantity = 0, Author = new Author() };
+            bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1))
+                .ReturnsAsync(book);
+            var loggerMock = new Mock<IApplicationLogger<BookSaleService>>();
+            var bookSaleService = new BookSaleService(bookRepositoryMock.Object,
+                BookSaleValidator, BookValidator, loggerMock.Object);
+
+            //Act
+            Func<Task> func = async () => await
+            bookSaleService.ProcessBookSaleAsync(bookSale);
+
+            //Assert
+            Assert.ThrowsAsync<FluentValidation.ValidationException>(func);
+            loggerMock.Verify(mock => mock.LogProcessBookSaleAsyncCalled(bookSale));
+            loggerMock.Verify(mock => mock.LogValidationErrorForBook(It.IsAny<FluentValidation.ValidationException>(),
+                It.IsAny<Book>()));
         }
     }
 }
