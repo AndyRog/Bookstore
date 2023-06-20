@@ -9,6 +9,7 @@ using Bookstore.Domain.Validation;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,39 +36,46 @@ public class BoookCreateServiceTests
     public async Task Book_Added()
     {
         //Arrange
-        var bookCreate = new BookCreate("1234567891234", "Test",1,0);
+        var bookCreate = new BookCreate("1234567891234", "Test", 1, 0);
         var bookRepositoryMock = new Mock<IBookRepository>();
         var authorRepositoryMock = new Mock<IAuthorRepository>();
-
-        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(new Author());
-        var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper,BookCreateValidator,BookValidator);
+        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1))
+            .ReturnsAsync(new Author());
+        var applicationLoggerMock = new Mock<IApplicationLogger<BookCreateService>>();
+        var bookCreateService = new BookCreateService(bookRepositoryMock.Object,
+            authorRepositoryMock.Object, Mapper, BookCreateValidator,
+            BookValidator, applicationLoggerMock.Object);
 
         //Act
         await bookCreateService.CreateBookAsync(bookCreate);
 
         //Assert
-        bookRepositoryMock.Verify(mock => mock.AddBookAsync(It.IsAny<Book>()), Times.Once);
-
+        bookRepositoryMock.Verify(mock => mock.AddBookAsync(It.IsAny<Book>()),
+           Times.Once);
+        applicationLoggerMock.Verify(mock => mock.LogCreateBookAsyncCalled(bookCreate), Times.Once);
+        applicationLoggerMock.Verify(mock => mock.LogBookCreated(It.IsAny<long>()), Times.Once);
     }
 
     [Fact]
-    public void Author_Not_Found_Exception_Auhtor()
+    public void AuthorNotFoundException_For_Non_Existent_Author()
     {
         //Arrange
         var bookCreate = new BookCreate("1234567891234", "Test", 1, 0);
         var bookRepositoryMock = new Mock<IBookRepository>();
         var authorRepositoryMock = new Mock<IAuthorRepository>();
-
-        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).Returns<Author?>(null);
-        var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
+        var applicationLoggerMock = new Mock<IApplicationLogger<BookCreateService>>();
+        var bookCreateService = new BookCreateService(bookRepositoryMock.Object,
+            authorRepositoryMock.Object, Mapper, BookCreateValidator,
+            BookValidator, applicationLoggerMock.Object);
 
         //Act
-        Func<Task> func = async () => await bookCreateService.CreateBookAsync(bookCreate);
+        Func<Task> func = async () => await bookCreateService
+        .CreateBookAsync(bookCreate);
 
         //Assert
         Assert.ThrowsAsync<AuthorNotFoundException>(func);
-       
-
+        applicationLoggerMock.Verify(mock => mock.LogCreateBookAsyncCalled(bookCreate), Times.Once);
+        applicationLoggerMock.Verify(mock => mock.LogAuthorNotFound(It.IsAny<long>()), Times.Once);
     }
 
     [Fact]
@@ -78,18 +86,71 @@ public class BoookCreateServiceTests
         
         var bookRepositoryMock = new Mock<IBookRepository>();
         bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(new Book() { Id = 1}); bookRepositoryMock.Setup(mock => mock.GetBookByIsbnAsync("1234567891234")).ReturnsAsync(new Book() { Id = 2});
+        
+        var applicationLoggerMock = new Mock<IApplicationLogger<BookCreateService>>();
 
         var authorRepositoryMock = new Mock<IAuthorRepository>();
         authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1)).ReturnsAsync(  new Author());
 
-        var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator);
+        var bookCreateService = new BookCreateService(bookRepositoryMock.Object, authorRepositoryMock.Object, Mapper, BookCreateValidator, BookValidator, applicationLoggerMock.Object);
 
         //Act
         Func<Task> func = async () => await bookCreateService.CreateBookAsync(bookCreate);
 
         //Assert
         Assert.ThrowsAsync<IsbnDublicateException>(func);
+        applicationLoggerMock.Verify(mock => mock.LogCreateBookAsyncCalled(bookCreate));
+        applicationLoggerMock.Verify(mock => mock.LogIsbnDuplicate(It.IsAny<string>()), Times.Once);
 
+    }
+    [Fact]
+    public void ValidationError_For_Invalid_BookCreate()
+    {
+        //Arrange
+        var bookCreate = new BookCreate("1234567891234", string.Empty, 1, 0);
+        var bookRepositoryMock = new Mock<IBookRepository>();
+        var authorRepositoryMock = new Mock<IAuthorRepository>();
+        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1))
+            .ReturnsAsync(new Author());
+        var applicationLoggerMock = new Mock<IApplicationLogger<BookCreateService>>();
+        var bookCreateService = new BookCreateService(bookRepositoryMock.Object,
+            authorRepositoryMock.Object, Mapper, BookCreateValidator,
+            BookValidator, applicationLoggerMock.Object);
 
+        //Act
+        Func<Task> func = async () => await bookCreateService
+         .CreateBookAsync(bookCreate);
+
+        //Assert
+        Assert.ThrowsAsync<ValidationException>(func);
+        applicationLoggerMock.Verify(mock => mock.LogCreateBookAsyncCalled(bookCreate), Times.Once);
+        applicationLoggerMock.Verify(mock =>
+        mock.LogValidationErrorForBookCreate(It.IsAny<FluentValidation.ValidationException>(), bookCreate), Times.Once);
+    }
+
+    [Fact]
+    public void ValidationError_For_Invalid_Book()
+    {
+        //Arrange
+        var bookCreate = new BookCreate("12345674", "Test", 1, 0);
+        var bookRepositoryMock = new Mock<IBookRepository>();
+        var authorRepositoryMock = new Mock<IAuthorRepository>();
+        authorRepositoryMock.Setup(mock => mock.GetAuthorByIdAsync(1))
+            .ReturnsAsync(new Author());
+        var applicationLoggerMock = new Mock<IApplicationLogger<BookCreateService>>();
+        var bookCreateService = new BookCreateService(bookRepositoryMock.Object,
+            authorRepositoryMock.Object, Mapper, BookCreateValidator,
+            BookValidator, applicationLoggerMock.Object);
+
+        //Act
+        Func<Task> func = async () => await bookCreateService
+         .CreateBookAsync(bookCreate);
+
+        //Assert
+        Assert.ThrowsAsync<ValidationException>(func);
+        applicationLoggerMock.Verify(mock => mock.LogCreateBookAsyncCalled(bookCreate), Times.Once);
+        applicationLoggerMock.Verify(mock =>
+        mock.LogValidationErrorForBook(It.IsAny<FluentValidation.ValidationException>(), It.IsAny<Book>()),
+        Times.Once);
     }
 }

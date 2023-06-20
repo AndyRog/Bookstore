@@ -21,20 +21,32 @@ namespace Bookstore.Application.Services
         public IMapper Mapper { get; }
         public BookCreateValidator BookCreateValidator { get; }
         public BookValidator BookValidator { get; }
+        public IApplicationLogger<BookCreateService> Logger { get; }
 
-        public BookCreateService(IBookRepository bookRepository, IAuthorRepository authorRepository, IMapper mapper, BookCreateValidator bookCreateValidator, BookValidator bookValidator)
+        public BookCreateService(IBookRepository bookRepository, IAuthorRepository authorRepository, IMapper mapper, BookCreateValidator bookCreateValidator, BookValidator bookValidator, IApplicationLogger<BookCreateService> logger)
         {
             BookRepository = bookRepository;
             AuthorRepository = authorRepository;
             this.Mapper = mapper;
             BookCreateValidator = bookCreateValidator;
             BookValidator = bookValidator;
+            Logger = logger;
         }
 
 
         public async Task<long> CreateBookAsync(BookCreate bookCreate)
         {
-            await BookCreateValidator.ValidateAndThrowAsync(bookCreate);
+            Logger.LogCreateBookAsyncCalled(bookCreate);
+            try
+            {
+                await BookCreateValidator.ValidateAndThrowAsync(bookCreate);
+            }
+            catch (ValidationException ex)
+            {
+                Logger.LogValidationErrorForBookCreate(ex, bookCreate);
+                throw;
+            }
+            
             var book = Mapper.Map<Book>(bookCreate);
 
             Author? author = await AuthorRepository.GetAuthorByIdAsync(bookCreate.AuthorId);
@@ -43,16 +55,28 @@ namespace Bookstore.Application.Services
 
             if(author == null)
             {
+                Logger.LogAuthorNotFound(bookCreate.AuthorId);
                 throw new AuthorNotFoundException();
             }
             if(existingBookForIsbn != null) 
             {
+                Logger.LogIsbnDuplicate(bookCreate.ISBN);
                 throw new IsbnDublicateException();
             }
 
             book.Author = author;
-            await BookValidator.ValidateAndThrowAsync(book);
+            try
+            {
+                await BookValidator.ValidateAndThrowAsync(book);
+            }
+            catch (ValidationException ex)
+            {
+                Logger.LogValidationErrorForBook(ex, book);
+                throw;
+            }
+            
             var id = await BookRepository.AddBookAsync(book);
+            Logger.LogBookCreated(id);
             return id;
         }
     }
