@@ -37,7 +37,9 @@ namespace Bookstore.Application.Unittests.Services
             var bookRepositoryMock = new Mock<IBookRepository>();
             bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).ReturnsAsync(book);
 
-            var bookDeliveryService = new BookDeliveryService( bookRepositoryMock.Object, BookDeliveryValidator);
+            var loggerMock = new Mock<IApplicationLogger<BookDeliveryService>>();
+
+            var bookDeliveryService = new BookDeliveryService( bookRepositoryMock.Object, BookDeliveryValidator, loggerMock.Object);
             //Act
             await bookDeliveryService.ProcessBookDeliveryAsync(bookDelivery);
 
@@ -54,13 +56,37 @@ namespace Bookstore.Application.Unittests.Services
 
             var bookRepositoryMock = new Mock<IBookRepository>();
             bookRepositoryMock.Setup(mock => mock.GetBookByIdAsync(1)).Returns<Book?>(null);
-            var bookDeliveryService = new BookDeliveryService(bookRepositoryMock.Object, BookDeliveryValidator);
+
+            var loggerMock = new Mock<IApplicationLogger<BookDeliveryService>>();
+
+            var bookDeliveryService = new BookDeliveryService(bookRepositoryMock.Object, BookDeliveryValidator, loggerMock.Object);
             //Act
             Func<Task> func = async () => await bookDeliveryService.ProcessBookDeliveryAsync(bookDelivery);
 
             //Assert
            Assert.ThrowsAsync<BookNotFoundException>(func);
 
+        }
+
+        [Fact]
+        public void ValidationError_For_Invalid_BookDelivery()
+        {
+            //Arrange
+            var bookDelivery = new BookDelivery(1, -1);
+            var bookRepositoryMock = new Mock<IBookRepository>();
+            var loggerMock = new Mock<IApplicationLogger<BookDeliveryService>>();
+            var bookDeliveryService = new BookDeliveryService(bookRepositoryMock.Object,
+                BookDeliveryValidator, loggerMock.Object);
+
+            //Act
+            Func<Task> func = async () => await
+            bookDeliveryService.ProcessBookDeliveryAsync(bookDelivery);
+
+            //Assert
+            Assert.ThrowsAsync<FluentValidation.ValidationException>(func);
+            loggerMock.Verify(mock => mock.LogProcessBookDeliveryAsyncCalled(bookDelivery));
+            loggerMock.Verify(mock => mock.LogValidationErrorForBookDelivery(It.IsAny<FluentValidation.ValidationException>(),
+                bookDelivery));
         }
     }
 }
